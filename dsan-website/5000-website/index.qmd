@@ -1,0 +1,43 @@
+---
+title: "DSAN-5000: Introduction"
+---
+
+See the following link for more information about the author: [about me](../../index.html)
+
+This is a Quarto website.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+
+`HIGHLY RECOMMENDED` 
+
+* It is `highly recommended` that you build your website using `.ipynb` files and NOT `.qmd`files
+* Functionally the two formats are basically identical, i.e. they are just `Markdown` + `Code` 
+* However there is `ONE MAJOR DIFFERENCE`, i.e. `.ipynb` stores the code outputs in the meta-data of the file
+  * This means you `ONLY HAVE TO RUN THE CODE ONCE` with `.ipynb`
+  * `.qmd` will run the code every time you build the website, which can be very slow
+    * There are `caching` options for `.qmd`, however, they are "messier" that just using `.ipynb`
+  * **Note**: `.qmd` is fine if there is no code, in which case it is basically just a `Markdown` file
+* Converting between the two
+  * You can switch between the two formats using 
+  * `quarto convert clustering.qmd` this will output a `.ipynb` version called `clustering.ipynb`
+  * `quarto convert eda.ipynb` this will output a `.qmd` version called `eda.qmd`
+* YOU CAN RUN `R CODE` IN VSC WITH `.ipynb`, see the following link 
+  * [https://saturncloud.io/blog/how-to-use-jupyter-r-kernel-with-visual-studio-code/](https://saturncloud.io/blog/how-to-use-jupyter-r-kernel-with-visual-studio-code/)
+* It is possible, but `NOT RECOMMENDED`, to mix Python and R code in the same file
+
+
+`IMPORTANT ASIDE`
+
+*  A `.ipynb` file is simply a `JSON` file with a specialized structural format
+*  You can see this by running `more eda/eda.ipynb` from the command line
+* Which will output the following;    
+    ![](images/2023-08-23-09-39-14.png){width=500}
+
+`TIP FOR MAC USERS`
+
+* `command+control+shift+4` is very useful on a mac. 
+  * It takes a screenshot and saves it to the clip-board 
+* The following VSC extension allows you to paste images from the clip-board with `alt+command+v`.    
+    ![](images/2023-08-23-09-35-05.png){width=300}
+* `tab` is your best friend when using the command line, since it does `auto-completion` 
+* `open ./path_to_file` will open any file or directory from the command line 
