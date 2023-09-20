@@ -3,18 +3,47 @@ project:
 
 website:
   title: "DSAN-5000: Project"
+  reader-mode: true
   navbar:
     left:
       - href: index.qmd
-        text: Home
-      - href: clustering/clustering.qmd
-        text: Clustering
+        text: About Me
+      - href: https://github.com/mfgeary
+        text: Code
+      - href: google.com
+        text: Data
+      - href: introduction/introduction.qmd
+        text: Introduction
+      - href: work-in-progress.qmd
+        text: Data Gathering
+      - href: work-in-progress.qmd
+        text: Data Cleaning
       - href: eda/eda.ipynb
         text: Data Exploration
+      - href: work-in-progress.qmd
+        text: Clustering
+      - href: work-in-progress.qmd
+        text: Dimensionality Reduction
+      - text: Decision Trees
+        menu:
+        - text: Classification
+          href: work-in-progress.qmd
+        - text: Regression
+          href: work-in-progress.qmd
+      - text: ARM
+        href: work-in-progress.qmd
+      - text: Conclusions
+        href: work-in-progress.qmd
+    collapse-below: xxl
+  page-footer: 
+    left: "Authored by Marion Geary Bauman, 2023"
+    right:
+      - icon: github
+        href: https://github.com/mfgeary
+      - icon: linkedin
+        href: https://www.linkedin.com/in/marion-geary
+
 format:
   html:
-    theme: cosmo
+    theme: flatly
     toc: true
-
-
-

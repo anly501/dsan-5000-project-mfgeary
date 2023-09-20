@@ -4,7 +4,28 @@
     "href": "index.html",
     "title": "DSAN-5000: Introduction",
     "section": "",
-    "text": "See the following link for more information about the author: about me\nThis is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\nHIGHLY RECOMMENDED\n\nIt is highly recommended that you build your website using .ipynb files and NOT .qmdfiles\nFunctionally the two formats are basically identical, i.e. they are just Markdown + Code\nHowever there is ONE MAJOR DIFFERENCE, i.e. .ipynb stores the code outputs in the meta-data of the file\n\nThis means you ONLY HAVE TO RUN THE CODE ONCE with .ipynb\n.qmd will run the code every time you build the website, which can be very slow\n\nThere are caching options for .qmd, however, they are “messier” that just using .ipynb\n\nNote: .qmd is fine if there is no code, in which case it is basically just a Markdown file\n\nConverting between the two\n\nYou can switch between the two formats using\nquarto convert clustering.qmd this will output a .ipynb version called clustering.ipynb\nquarto convert eda.ipynb this will output a .qmd version called eda.qmd\n\nYOU CAN RUN R CODE IN VSC WITH .ipynb, see the following link\n\nhttps://saturncloud.io/blog/how-to-use-jupyter-r-kernel-with-visual-studio-code/\n\nIt is possible, but NOT RECOMMENDED, to mix Python and R code in the same file\n\nIMPORTANT ASIDE\n\nA .ipynb file is simply a JSON file with a specialized structural format\nYou can see this by running more eda/eda.ipynb from the command line\nWhich will output the following;\n\n\nTIP FOR MAC USERS\n\ncommand+control+shift+4 is very useful on a mac.\n\nIt takes a screenshot and saves it to the clip-board\n\nThe following VSC extension allows you to paste images from the clip-board with alt+command+v.\n\ntab is your best friend when using the command line, since it does auto-completion\nopen ./path_to_file will open any file or directory from the command line"
+    "text": "Marion Geary Bauman is currently pursing a masters degree in Data Science and Analytics at Georgetown University. As a data scientist and statistician, she is drawn to the intersection of technical skills and their practical applications for improving the lives of others. She is driven to do technical work that is meaningful and can have a positive impact on those it influences. She loves to utilize her programming knowledge, analytical skills, and problem-solving abilities to devise creative and actionable solutions to real-world problems.\n\n\n\nIntellection\nEmpathy\nLearner\nAchiever\nInput\n\n\n\n\n\n\nMarion is particularly interested in studying Natural Language Processing and Large Language Models. She has experience using advanced NLP techniques in industry, and she is especially focused on the ethical usage of artificial intelligence.\n\n\n\n\n\n\n\nMarion has been a part of various open source development projects with a particular focus on R. She is currently developing a new set of themes for ggplot, and she supports the R community through answering questions on Stack Overflow.\n\n\n\n\nMarion developed an enterprise data science solution to classify medical research grant abstracts by intervention type to assist leadership at a large medical research organization. She has also used machine learning to build an NFL player performance predictor, which was used as the backend for a student-built app."
+  },
+  {
+    "objectID": "index.html#meet-marion",
+    "href": "index.html#meet-marion",
+    "title": "DSAN-5000: Introduction",
+    "section": "",
+    "text": "Marion Geary Bauman is currently pursing a masters degree in Data Science and Analytics at Georgetown University. As a data scientist and statistician, she is drawn to the intersection of technical skills and their practical applications for improving the lives of others. She is driven to do technical work that is meaningful and can have a positive impact on those it influences. She loves to utilize her programming knowledge, analytical skills, and problem-solving abilities to devise creative and actionable solutions to real-world problems.\n\n\n\nIntellection\nEmpathy\nLearner\nAchiever\nInput"
+  },
+  {
+    "objectID": "index.html#academic-interests",
+    "href": "index.html#academic-interests",
+    "title": "DSAN-5000: Introduction",
+    "section": "",
+    "text": "Marion is particularly interested in studying Natural Language Processing and Large Language Models. She has experience using advanced NLP techniques in industry, and she is especially focused on the ethical usage of artificial intelligence."
+  },
+  {
+    "objectID": "index.html#previous-projects",
+    "href": "index.html#previous-projects",
+    "title": "DSAN-5000: Introduction",
+    "section": "",
+    "text": "Marion has been a part of various open source development projects with a particular focus on R. She is currently developing a new set of themes for ggplot, and she supports the R community through answering questions on Stack Overflow.\n\n\n\n\nMarion developed an enterprise data science solution to classify medical research grant abstracts by intervention type to assist leadership at a large medical research organization. She has also used machine learning to build an NFL player performance predictor, which was used as the backend for a student-built app."
   },
   {
     "objectID": "eda/eda.html",
@@ -33,5 +54,12 @@
     "title": "Clustering",
     "section": "",
     "text": "Build out your website tab for “clustering”"
+  },
+  {
+    "objectID": "work-in-progress.html",
+    "href": "work-in-progress.html",
+    "title": "Work in Progress",
+    "section": "",
+    "text": "Work in Progress\nThis website is still being built. Check back later for more!"
   }
 ]
