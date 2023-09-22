@@ -10,7 +10,7 @@ website:
         text: About Me
       - href: https://github.com/mfgeary
         text: Code
-      - href: google.com
+      - href: https://datasetsearch.research.google.com/search?src=0&query=schizophrenia%20marijuana&docid=L2cvMTF0cm54bGZ4OQ%3D%3D
         text: Data
       - href: introduction/introduction.qmd
         text: Introduction
