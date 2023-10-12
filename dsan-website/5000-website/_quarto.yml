@@ -10,13 +10,26 @@ website:
         text: About Me
       - href: https://github.com/mfgeary
         text: Code
-      - href: https://datasetsearch.research.google.com/search?src=0&query=schizophrenia%20marijuana&docid=L2cvMTF0cm54bGZ4OQ%3D%3D
-        text: Data
+      - text: Data
+        menu:
+          - text: Raw Data
+          menu:
+            - text: Reddit r/Psychosis
+              href: data/reddit_psychosis_data.json
+            - text: Reddit r/Schizophrenia
+              href: data/reddit_schizophrenia_data.json
+            - text: Reddit r/Cannabis
+              href: data/reddit_cannabis_data.json
+            - text: Wikipedia Data
+              href: https://github.com/anly501/dsan-5000-project-mfgeary/tree/main/dsan-website/5000-website
+          - text: Clean Data
+          menu:
+            - text:
       - href: introduction/introduction.qmd
         text: Introduction
-      - href: work-in-progress.qmd
+      - href: data-collection.qmd
         text: Data Gathering
-      - href: work-in-progress.qmd
+      - href: data-cleaning.qmd
         text: Data Cleaning
       - href: eda/eda.ipynb
         text: Data Exploration
