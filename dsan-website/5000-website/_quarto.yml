@@ -13,23 +13,20 @@ website:
       - text: Data
         menu:
           - text: Raw Data
-          menu:
-            - text: Reddit r/Psychosis
-              href: data/reddit_psychosis_data.json
-            - text: Reddit r/Schizophrenia
-              href: data/reddit_schizophrenia_data.json
-            - text: Reddit r/Cannabis
-              href: data/reddit_cannabis_data.json
-            - text: Wikipedia Data
-              href: https://github.com/anly501/dsan-5000-project-mfgeary/tree/main/dsan-website/5000-website
+          - text: Reddit r/Psychosis
+            href: data/reddit_psychosis_data.json
+          - text: Reddit r/Schizophrenia
+            href: data/reddit_schizophrenia_data.json
+          - text: Reddit r/Cannabis
+            href: data/reddit_cannabis_data.json
+          - text: Wikipedia Data
+            href: https://github.com/anly501/dsan-5000-project-mfgeary/tree/main/dsan-website/5000-website
           - text: Clean Data
-          menu:
-            - text:
       - href: introduction/introduction.qmd
         text: Introduction
-      - href: data-collection.qmd
+      - href: data-collection/data-collection.ipynb
         text: Data Gathering
-      - href: data-cleaning.qmd
+      - href: data-cleaning/data-cleaning.ipynb
         text: Data Cleaning
       - href: eda/eda.ipynb
         text: Data Exploration
