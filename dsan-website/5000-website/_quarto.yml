@@ -24,6 +24,8 @@ website:
         text: Data Cleaning
       - href: eda/eda.ipynb
         text: Data Exploration
+      - href: naive-bayes/naive-bayes.ipynb
+        text: Naïve Bayes
       - href: work-in-progress.qmd
         text: Clustering
       - href: work-in-progress.qmd
