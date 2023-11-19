@@ -2,45 +2,55 @@ project:
   type: website
 
 website:
-  title: "DSAN-5000: Project"
-  reader-mode: true
   navbar:
+    tools:
+      - icon: github
+        href: https://github.com/mfgeary
+      - icon: linkedin
+        href: https://www.linkedin.com/in/marion-geary-bauman
+    title: "DSAN 5000: Cannabis and Psychosis"
     left:
-      - href: index.qmd
-        text: About Me
-      - href: https://github.com/anly501/dsan-5000-project-mfgeary
-        text: Code
-      - text: Data
-        menu:
-          - text: Raw Data
-            href: https://github.com/anly501/dsan-5000-project-mfgeary/tree/main/dsan-website/5000-website/data/raw_data
-          - text: Clean Data
-            href: https://github.com/anly501/dsan-5000-project-mfgeary/tree/main/dsan-website/5000-website/data
-      - href: introduction/introduction.qmd
-        text: Introduction
-      - href: data-collection/data-collection.ipynb
-        text: Data Gathering
-      - href: data-cleaning/data-cleaning.ipynb
-        text: Data Cleaning
-      - href: eda/eda.ipynb
-        text: Data Exploration
-      - href: naive-bayes/naive-bayes.ipynb
-        text: Naïve Bayes
-      - href: work-in-progress.qmd
-        text: Clustering
-      - href: work-in-progress.qmd
-        text: Dimensionality Reduction
-      - text: Decision Trees
-        menu:
-        - text: Classification
-          href: work-in-progress.qmd
-        - text: Regression
-          href: work-in-progress.qmd
-      - text: ARM
+      - text: Home
+        href: ../index.html
+    collapse: false
+  sidebar:
+    style: "docked"
+    contents:
+    - href: index.qmd
+      text: About Marion
+    - href: https://github.com/anly501/dsan-5000-project-mfgeary
+      text: Code
+      icon: github
+    - section: Data
+      contents:
+        - text: Raw Data
+          href: https://github.com/anly501/dsan-5000-project-mfgeary/tree/main/dsan-website/5000-website/data/raw_data
+        - text: Clean Data
+          href: https://github.com/anly501/dsan-5000-project-mfgeary/tree/main/dsan-website/5000-website/data
+    - href: introduction/introduction.qmd
+      text: Introduction
+    - href: data-collection/data-collection.ipynb
+      text: Data Gathering
+    - href: data-cleaning/data-cleaning.ipynb
+      text: Data Cleaning
+    - href: eda/eda.ipynb
+      text: Data Exploration
+    - href: naive-bayes/naive-bayes.ipynb
+      text: Naïve Bayes
+    - href: work-in-progress.qmd
+      text: Clustering
+    - href: work-in-progress.qmd
+      text: Dimensionality Reduction
+    - section: Decision Trees
+      contents:
+      - text: Classification
         href: work-in-progress.qmd
-      - text: Conclusions
+      - text: Regression
         href: work-in-progress.qmd
-    collapse-below: xxl
+    - text: ARM
+      href: work-in-progress.qmd
+    - text: Conclusions
+      href: work-in-progress.qmd
   page-footer: 
     left: "Authored by Marion Geary Bauman, 2023"
     right:
@@ -51,6 +61,9 @@ website:
 
 format:
   html:
-    theme: flatly
+    theme: theme.scss
     toc: true
     code-fold: true
+    mainfont: Lato
+    css: style.css
+    linkcolor: "#000000"

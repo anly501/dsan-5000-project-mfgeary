@@ -1,18 +1,8 @@
----
-title: "DSAN-5000: Introduction"
----
+## About Marion
 
-# Marion Geary Bauman
-
-## Meet Marion
 Marion Geary Bauman is currently pursing a masters degree in Data Science and Analytics at Georgetown University. As a data scientist and statistician, she is drawn to the intersection of technical skills and their practical applications for improving the lives of others. She is driven to do technical work that is meaningful and can have a positive impact on those it influences. She loves to utilize her programming knowledge, analytical skills, and problem-solving abilities to devise creative and actionable solutions to real-world problems. 
 
-##### Clifton Strengths: 
-* Intellection
-* Empathy
-* Learner
-* Achiever
-* Input
+Clifton Strengths: | Intellection | Empathy | Learner | Achiever | Input
 
 ![](head-shot.png)
 

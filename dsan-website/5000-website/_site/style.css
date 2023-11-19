@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lato&display=swap');
+
+.p {
+  font-family: 'Lato', sans-serif;
+}
+
+a {
+  color: #78384F;
+}
+
+a:hover {
+  color: #1C2540;
+}
+
+h1 {
+  font-family: 'Abril Fatface';
+  color: #78384F;
+}
+
+/*-- scss:rules --*/
+
+h2 {
+  font-family: Abril Fatface;
+  color: #78384F !important;
+}
+
+h3 {
+  font-family: Abril Fatface;
+  color: #1C2540 !important;
+}
+
+/* .sourceCode {
+  margin: 1em 0;
+  border: 2px solid #41475E;
+  border-left: 10px solid #41475E; 
+  border-radius: 10px;
+}
+
+.code-with-copy {
+  color: #41475E;
+} */
+
+/* .cell-code {
+  margin-left: 0em;
+  padding-left:  60px;
+  padding-top:  2px;
+  padding-bottom:  1px;
+  color: white;
+  background-color: #41475E;
+  border-top-right-radius: 3px;
+  font-size: 1em;
+  font-weight: bold;
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: 15px center;
+  background-image: url("images/stars.png");
+} */
+
+.cell-output {
+  margin: 1em 0;
+  border: 2px solid rgb(65, 71, 94, 0.3);
+  border-radius: 4px;
+  background-color: rgb(65, 71, 94, 0.2);
+  
+}
+
+/* style the navbar */
+.navbar {
+  background-color: #78384F;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  border-radius: 0px;
+  font-family: 'Lato';
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+.navbar-brand:hover {
+  color: #ffffff;
+}
+
+.navbar-brand {
+  color: #ffffff;
+  font-family: 'Abril Fatface';
+  font-size: 1.5em;
+  font-weight: 400;
+}
+
+.navbar-nav li a:hover {
+  color: #ffffff;
+}
+
+/* style the table of contents with id = toc-title */
+#toc-title {
+  font-family: 'Abril Fatface';
+  color: #78384F;
+}
+
+.toc-active {
+  background-color: #ffffff;
+  border: 0px;
+  border-radius: 0px;
+  font-family: 'Lato';
+  font-size: 1.2em;
+  font-weight: 400;
+  color: #6a737b;
+}
+
