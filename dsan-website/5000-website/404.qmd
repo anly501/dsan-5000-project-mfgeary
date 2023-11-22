@@ -1,6 +1,8 @@
 ---
-title: Page Not Found
+title: "404"
 ---
+
+# Page Not Found
 
 Uh-oh! We can't find this page!
 
