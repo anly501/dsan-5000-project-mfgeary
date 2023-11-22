@@ -1,4 +1,6 @@
-# Work in Progress
+---
+title: Work in Progress
+---
 
 This website is still being built. Check back later for more!
 

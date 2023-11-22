@@ -11,7 +11,7 @@ website:
     title: "DSAN 5000: Cannabis and Psychosis"
     left:
       - text: Home
-        href: ../index.html
+        href: https://mgb.georgetown.domains
     collapse: false
   sidebar:
     style: "docked"
@@ -37,27 +37,27 @@ website:
       text: Data Exploration
     - href: naive-bayes/naive-bayes.ipynb
       text: Naïve Bayes
-    - href: work-in-progress.qmd
+    - href: clustering/work-in-progress.ipynb
       text: Clustering
-    - href: work-in-progress.qmd
+    - href: dim-reduction/work-in-progress.ipynb
       text: Dimensionality Reduction
     - section: Decision Trees
       contents:
-      - text: Classification
-        href: work-in-progress.qmd
-      - text: Regression
-        href: work-in-progress.qmd
-    - text: ARM
-      href: work-in-progress.qmd
-    - text: Conclusions
-      href: work-in-progress.qmd
+      - href: decision-tree/classification/work-in-progress.ipynb
+        text: Classification
+      - href: decision-tree/regression/work-in-progress.ipynb
+        text: Regression
+    - href: arm/work-in-progress.ipynb
+      text: ARM
+    - href: conclusions/work-in-progress.ipynb
+      text: Conclusions
   page-footer: 
     left: "Authored by Marion Geary Bauman, 2023"
     right:
       - icon: github
         href: https://github.com/mfgeary
       - icon: linkedin
-        href: https://www.linkedin.com/in/marion-geary
+        href: https://www.linkedin.com/in/marion-geary-bauman
 
 format:
   html:
