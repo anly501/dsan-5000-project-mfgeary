@@ -5,3 +5,5 @@
 *.json
 *.xlsx
 /.quarto/
+*.RData
+*.Rdata
