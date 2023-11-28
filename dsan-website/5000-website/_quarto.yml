@@ -39,7 +39,7 @@ website:
       text: Naïve Bayes
     - href: clustering/work-in-progress.ipynb
       text: Clustering
-    - href: dim-reduction/work-in-progress.ipynb
+    - href: dim-reduction/dim-reduction.ipynb
       text: Dimensionality Reduction
     - section: Decision Trees
       contents:
