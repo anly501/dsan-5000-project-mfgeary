@@ -94,8 +94,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../style.css">
 </head>
@@ -209,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../clustering/work-in-progress.html" class="sidebar-item-text sidebar-link">
+  <a href="../clustering/clustering.ipynb" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Clustering</span></a>
   </div>
 </li>
@@ -317,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="principle-component-analysis-pca" class="level3">
 <h3 class="anchored" data-anchor-id="principle-component-analysis-pca">Principle Component Analysis (PCA)</h3>
 <p>We will begin with PCA. First, we will import the necessary libraries and load the data.</p>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="4">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn</span>
@@ -329,34 +327,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>nsduh <span class="op">=</span> pd.read_csv(<span class="st">'../../data/clean_data/nsduh_2021.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>/Users/mariongeary/Library/Mobile Documents/com~apple~CloudDocs/Documents/grad_school/s1/dsan5000/dsan-5000-project-mfgeary/dsan-website/5000-website/dim-reduction</code></pre>
-</div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/4w/gxhbpkhj19j6ydpft6pz0grc0000gn/T/ipykernel_23248/361501901.py:12: DtypeWarning: Columns (5,11,57,58,60,501,513,514,515,516,517,519,520,521,522,523,541,546,550,551,552,553,563,569,570,571,856,857,858,859,860,861,862,863,864,865,866,867,868,1056,1057,1058,1061,1066,1067,1068,1069,1070,1071,1072,1073,1074,1075,1076,1077,1078,1079,1080,1081,1082,1083,1084,1085,1086,1087,1088,1089,1090,1094,1095,1096,1097,1098,1099,1100,1101,1102,1103,1104,1105,1106,1107,1108,1109,1110,1111,1112,1113,1114,1115,1116,1117,1118,1119,1120,1121,1122,1123,1124,1125,1126,1127,1128,1129,1130,1131,1132,1133,1134,1135,1136,1137,1138,1139,1140,1141,1142,1143,1144,1145,1146,1147,1148,1149,1150,1151,1152,1153,1169,1170,1171,1172,1173,1174,1175,1176,1177,1178,1179,1180,1181,1182,1183,1184,1185,1186,1187,1188,1189,1190,1191,1192,1193,1194,1195,1196,1197,1198,1199,1200,1201,1202,1203,1204,1205,1206,1207,1208,1209,1210,1211,1212,1213,1214,1215,1216,1217,1218,1219,1220,1221,1222,1223,1224,1225,1250,1251,1252,1253,1254,1255,1256,1257,1258,1259,1260,1261,1262,1263,1264,1265,1266,1267,1268,1269,1270,1271,1272,1273,1274,1275,1276,1277,1278,1279,1280,1281,1282,1290,1291,1292,1293,1294,1295,1296,1297,1298,1299,1300,1301,1302,1303,1304,1305,1306,1307,1308,1309,1310,1311,1312,1313,1314,1315,1316,1317,1318,1319,1320,1321,1322,1323,1324,1325,1326,1327,1328,1329,1330,1331,1332,1333,1334,1335,1336,1337,1338,1339,1340,1341,1342,1343,1344,1345,1346,1347,1348,1349,1350,1351,1352,1353,1354,1355,1356,1357,1358,1359,1360,1361,1362,1363,1364,1365,1366,1367,1368,1369,1370,1371,1372,1373,1374,1375,1376,1377,1378,1379,1380,1381,1382,1383,1384,1385,1386,1387,1388,1389,1390,1391,1392,1393,1394,1395,1396,1397,1398,1399,1400,1401,1402,1403,1404,1405,1406,1407,1408,1409,1410,1411,1412,1413,1414,1415,1416,1417,1418,1419,1420,1421,1422,1423,1424,1425,1426,1427,1428,1429,1430,1431,1432,1433,1434,1435,1436,1437,1438,1439,1440,1441,1442,1443,1444,1445,1446,1447,1448,1449,1450,1451,1452,1453,1454,1455,1456,1457,1458,1459,1480,1504,1505,1506,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1598,1599,1600,1601,1602,1603,1622,1623,1624,1625,1626,1627,1628,1632,1633,1634,1635,1636,1637,1638,1639,1640,1641,1643,1645,1649,1650,1660,1662,1663,1669,1670,1671,1672,1674,1675,1676,1677,1678,1679,1680,1688,1690) have mixed types. Specify dtype option on import or set low_memory=False.
+<pre><code>/var/folders/4w/gxhbpkhj19j6ydpft6pz0grc0000gn/T/ipykernel_8509/3212366654.py:8: DtypeWarning: Columns (5,11,57,58,60,501,513,514,515,516,517,519,520,521,522,523,541,546,550,551,552,553,563,569,570,571,856,857,858,859,860,861,862,863,864,865,866,867,868,1056,1057,1058,1061,1066,1067,1068,1069,1070,1071,1072,1073,1074,1075,1076,1077,1078,1079,1080,1081,1082,1083,1084,1085,1086,1087,1088,1089,1090,1094,1095,1096,1097,1098,1099,1100,1101,1102,1103,1104,1105,1106,1107,1108,1109,1110,1111,1112,1113,1114,1115,1116,1117,1118,1119,1120,1121,1122,1123,1124,1125,1126,1127,1128,1129,1130,1131,1132,1133,1134,1135,1136,1137,1138,1139,1140,1141,1142,1143,1144,1145,1146,1147,1148,1149,1150,1151,1152,1153,1169,1170,1171,1172,1173,1174,1175,1176,1177,1178,1179,1180,1181,1182,1183,1184,1185,1186,1187,1188,1189,1190,1191,1192,1193,1194,1195,1196,1197,1198,1199,1200,1201,1202,1203,1204,1205,1206,1207,1208,1209,1210,1211,1212,1213,1214,1215,1216,1217,1218,1219,1220,1221,1222,1223,1224,1225,1250,1251,1252,1253,1254,1255,1256,1257,1258,1259,1260,1261,1262,1263,1264,1265,1266,1267,1268,1269,1270,1271,1272,1273,1274,1275,1276,1277,1278,1279,1280,1281,1282,1290,1291,1292,1293,1294,1295,1296,1297,1298,1299,1300,1301,1302,1303,1304,1305,1306,1307,1308,1309,1310,1311,1312,1313,1314,1315,1316,1317,1318,1319,1320,1321,1322,1323,1324,1325,1326,1327,1328,1329,1330,1331,1332,1333,1334,1335,1336,1337,1338,1339,1340,1341,1342,1343,1344,1345,1346,1347,1348,1349,1350,1351,1352,1353,1354,1355,1356,1357,1358,1359,1360,1361,1362,1363,1364,1365,1366,1367,1368,1369,1370,1371,1372,1373,1374,1375,1376,1377,1378,1379,1380,1381,1382,1383,1384,1385,1386,1387,1388,1389,1390,1391,1392,1393,1394,1395,1396,1397,1398,1399,1400,1401,1402,1403,1404,1405,1406,1407,1408,1409,1410,1411,1412,1413,1414,1415,1416,1417,1418,1419,1420,1421,1422,1423,1424,1425,1426,1427,1428,1429,1430,1431,1432,1433,1434,1435,1436,1437,1438,1439,1440,1441,1442,1443,1444,1445,1446,1447,1448,1449,1450,1451,1452,1453,1454,1455,1456,1457,1458,1459,1480,1504,1505,1506,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1598,1599,1600,1601,1602,1603,1622,1623,1624,1625,1626,1627,1628,1632,1633,1634,1635,1636,1637,1638,1639,1640,1641,1643,1645,1649,1650,1660,1662,1663,1669,1670,1671,1672,1674,1675,1676,1677,1678,1679,1680,1688,1690) have mixed types. Specify dtype option on import or set low_memory=False.
   nsduh = pd.read_csv('../../data/clean_data/nsduh_2021.csv')</code></pre>
 </div>
 </div>
-<p>Now, we can implement PCA on the NSDUH data. We will find conduct the PCA and use the <code>explained_variance_ratio_</code> attribute to see how much variance is explained by each principle component. We will test many different values for the number of principle components to see how many principle components we should use, and we will select the number of principle components that explain the most variance in the data. Typically the optimal number of principle components is about <span class="math inline">\(\sqrt{n}\)</span>, where <span class="math inline">\(n\)</span> is the number of features in the data. In the case, <span class="math inline">\(\sqrt{1700}\)</span> is about 41, so we will test values from 1 to 50 for the number of principle components.</p>
-<div class="cell" data-execution_count="19">
+<p>Now, we can implement PCA on the NSDUH data. We will find conduct the PCA and use the <code>explained_variance_ratio_</code> attribute to see how much variance is explained by each principle component. We will test many different values for the number of principle components to see how many principle components we should use, and we will select the number of principle components that explain the most variance in the data.</p>
+<div class="cell" data-execution_count="5">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a copy of the data</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>nsduh_pca <span class="op">=</span> nsduh.copy()</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop na values and target variable</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>nsduh_pca <span class="op">=</span> nsduh_pca.dropna()</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>nsduh_pca <span class="op">=</span> nsduh_pca.drop(<span class="st">'smipppy'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert categorical variables to dummy variables</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>nsduh_pca <span class="op">=</span> pd.get_dummies(nsduh_pca)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the data</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>nsduh_pca <span class="op">=</span> scaler.fit_transform(nsduh_pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a copy of the data</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>nsduh_pca <span class="op">=</span> nsduh.copy()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop na values and target variable</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>nsduh_pca <span class="op">=</span> nsduh_pca.dropna()</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>nsduh_pca <span class="op">=</span> nsduh_pca.drop(<span class="st">'smipppy'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert categorical variables to dummy variables</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>nsduh_pca <span class="op">=</span> pd.get_dummies(nsduh_pca)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the data</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>nsduh_pca <span class="op">=</span> scaler.fit_transform(nsduh_pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/sklearn/utils/validation.py:767: FutureWarning: is_sparse is deprecated and will be removed in a future version. Check `isinstance(dtype, pd.SparseDtype)` instead.
@@ -376,10 +371,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="22">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pca_data <span class="op">=</span> []</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">1000</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pca.fit(nsduh_pca)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Explained variance sum: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(pca.explained_variance_ratio_.<span class="bu">sum</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pca_data <span class="op">=</span> []</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pca.fit(nsduh_pca)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Explained variance sum: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(pca.explained_variance_ratio_.<span class="bu">sum</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Explained variance sum: 0.5838283822929689</code></pre>
@@ -388,21 +383,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="25">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pca_data <span class="op">=</span> pd.DataFrame(pca.explained_variance_ratio_, columns<span class="op">=</span>[<span class="st">'explained_variance_ratio'</span>])</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pca_data[<span class="st">'n_components'</span>] <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(pca_data) <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>pca_data[<span class="st">'explained_variance_ratio_sum'</span>] <span class="op">=</span> pca_data[<span class="st">'explained_variance_ratio'</span>].cumsum()</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the explained variance ratio</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span><span class="st">'n_components'</span>, y<span class="op">=</span><span class="st">'explained_variance_ratio_sum'</span>, data<span class="op">=</span>pca_data)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of components'</span>)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Explained variance ratio sum'</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Explained variance ratio vs. number of components'</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pca_data <span class="op">=</span> pd.DataFrame(pca.explained_variance_ratio_, columns<span class="op">=</span>[<span class="st">'explained_variance_ratio'</span>])</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pca_data[<span class="st">'n_components'</span>] <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(pca_data) <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pca_data[<span class="st">'explained_variance_ratio_sum'</span>] <span class="op">=</span> pca_data[<span class="st">'explained_variance_ratio'</span>].cumsum()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the explained variance ratio</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span><span class="st">'n_components'</span>, y<span class="op">=</span><span class="st">'explained_variance_ratio_sum'</span>, data<span class="op">=</span>pca_data)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of components'</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Explained variance ratio sum'</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Explained variance ratio vs. number of components'</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="dim-reduction_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Based on this graph of the additional amount of variance explained by each new principle component, we can see that the “elbow” of the graph is at around 150 principle components. This means that the first 150 principle components explain a large amount of the variance in the data (about 25%), with each additional principle component explaining a smaller amount of variance. Therefore, we will select the first 150 principle components to use in our analysis.</p>
+<p>These principle components will only explain about 25% of the variance in the data, but this is still a significant amount of variance given that we are now using only 150 features instead of 1700 features.</p>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">150</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pca_results <span class="op">=</span> pca.fit_transform(nsduh_pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="11">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize PCA results</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>pca_results[:, <span class="dv">0</span>], y<span class="op">=</span>pca_results[:, <span class="dv">1</span>], hue<span class="op">=</span>nsduh.dropna()[<span class="st">'smipppy'</span>])</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Principal component 1'</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Principal component 2'</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'PCA results'</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="dim-reduction_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -412,18 +440,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="36">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.manifold <span class="im">import</span> TSNE</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>nsduh_tsne <span class="op">=</span> nsduh_pca.copy()</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>perplexities <span class="op">=</span> {}</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">5</span>)):</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    tsne <span class="op">=</span> TSNE(n_components<span class="op">=</span><span class="dv">2</span>, perplexity<span class="op">=</span>j, learning_rate<span class="op">=</span><span class="st">'auto'</span>, init<span class="op">=</span><span class="st">'random'</span>, random_state<span class="op">=</span><span class="dv">87</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    X_embedded <span class="op">=</span> tsne.fit_transform(nsduh_tsne)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    perplexities[j] <span class="op">=</span> (X_embedded, tsne.kl_divergence_, tsne)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(j))</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'KL divergence: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(tsne.kl_divergence_))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.manifold <span class="im">import</span> TSNE</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>nsduh_tsne <span class="op">=</span> nsduh_pca.copy()</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>perplexities <span class="op">=</span> {}</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">5</span>, <span class="dv">50</span>, <span class="dv">5</span>)):</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    tsne <span class="op">=</span> TSNE(n_components<span class="op">=</span><span class="dv">2</span>, perplexity<span class="op">=</span>j, learning_rate<span class="op">=</span><span class="st">'auto'</span>, init<span class="op">=</span><span class="st">'random'</span>, random_state<span class="op">=</span><span class="dv">87</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    X_embedded <span class="op">=</span> tsne.fit_transform(nsduh_tsne)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    perplexities[j] <span class="op">=</span> (X_embedded, tsne.kl_divergence_, tsne)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(j))</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'KL divergence: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(tsne.kl_divergence_))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code> 11%|█         | 1/9 [06:06&lt;48:49, 366.18s/it] 22%|██▏       | 2/9 [12:34&lt;44:13, 379.14s/it] 33%|███▎      | 3/9 [19:24&lt;39:20, 393.43s/it] 44%|████▍     | 4/9 [1:16:55&lt;2:13:22, 1600.53s/it] 56%|█████▌    | 5/9 [1:41:19&lt;1:43:24, 1551.21s/it] 67%|██████▋   | 6/9 [1:51:43&lt;1:01:47, 1235.76s/it] 78%|███████▊  | 7/9 [1:57:36&lt;31:34, 947.30s/it]    89%|████████▉ | 8/9 [2:03:54&lt;12:46, 766.10s/it]100%|██████████| 9/9 [2:10:22&lt;00:00, 869.15s/it]</code></pre>
@@ -452,36 +480,297 @@ KL divergence: 2.9646353721618652</code></pre>
 <div class="cell" data-execution_count="50">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the perplexity vs. KL divergence</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span><span class="bu">list</span>(perplexities.keys()), y<span class="op">=</span>[i[<span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> perplexities.values()], color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Perplexity'</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'KL divergence'</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Perplexity vs. KL divergence'</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the X_embedded for each perplexity in its own subplot</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">30</span>))</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'TSNE with different perplexities for NSDUH data'</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'red'</span>, <span class="st">'green'</span>, <span class="st">'orange'</span>, <span class="st">'purple'</span>, <span class="st">'yellow'</span>, <span class="st">'cyan'</span>, <span class="st">'magenta'</span>, <span class="st">'brown'</span>, <span class="st">'pink'</span>, <span class="st">'gray'</span>]</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, j <span class="kw">in</span> <span class="bu">enumerate</span>(perplexities.keys()):</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(x<span class="op">=</span>perplexities[j][<span class="dv">0</span>][:, <span class="dv">0</span>], y<span class="op">=</span>perplexities[j][<span class="dv">0</span>][:, <span class="dv">1</span>], ax<span class="op">=</span>axes[i], color<span class="op">=</span>colors[i])</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    axes[i].set_title(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(j))</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    axes[i].set_xlim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the x-axis limits</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    axes[i].set_ylim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the y-axis limits</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the perplexity vs. KL divergence</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span><span class="bu">list</span>(perplexities.keys()), y<span class="op">=</span>[i[<span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> perplexities.values()], color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Perplexity'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'KL divergence'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Perplexity vs. KL divergence'</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the X_embedded for each perplexity in its own subplot</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">30</span>))</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'TSNE with different perplexities for NSDUH data'</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'red'</span>, <span class="st">'green'</span>, <span class="st">'orange'</span>, <span class="st">'purple'</span>, <span class="st">'yellow'</span>, <span class="st">'cyan'</span>, <span class="st">'magenta'</span>, <span class="st">'brown'</span>, <span class="st">'pink'</span>, <span class="st">'gray'</span>]</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, j <span class="kw">in</span> <span class="bu">enumerate</span>(perplexities.keys()):</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(x<span class="op">=</span>perplexities[j][<span class="dv">0</span>][:, <span class="dv">0</span>], y<span class="op">=</span>perplexities[j][<span class="dv">0</span>][:, <span class="dv">1</span>], ax<span class="op">=</span>axes[i], color<span class="op">=</span>colors[i])</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    axes[i].set_title(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(j))</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    axes[i].set_xlim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the x-axis limits</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    axes[i].set_ylim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the y-axis limits</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="dim-reduction_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
+<p><img src="dim-reduction_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="dim-reduction_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+<p><img src="dim-reduction_files/figure-html/cell-9-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Based on these plots of the t-SNE embedding, we can see that the optimal perplexity value is 10. When the perplexity value is 10, the KL divergence is minimized and the t-SNE embedding is most accurate.</p>
-<p>Overall, we can say that t-SNE is not a very good choice for dimensionality reduction in this case. When we have such high dimensional data, we need to use a different dimensionality reduction technique such as PCA.</p>
+<p>Overall, we can say that t-SNE is not a very good choice for dimensionality reduction in this case. When we have such high dimensional data, we should rely on a different dimensionality reduction technique such as PCA.</p>
+<div class="cell" data-execution_count="26">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pca_results[:, :<span class="dv">50</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>(22635, 50)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="19">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.manifold <span class="im">import</span> TSNE</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the PCA results as input for t-SNE</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>nsduh_tsne <span class="op">=</span> pca_results.copy()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>perplexities_tsne <span class="op">=</span> {}</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">10</span>, <span class="dv">101</span>, <span class="dv">10</span>)):</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    tsne <span class="op">=</span> TSNE(n_components<span class="op">=</span><span class="dv">2</span>, perplexity<span class="op">=</span>i, learning_rate<span class="op">=</span><span class="st">'auto'</span>, init<span class="op">=</span><span class="st">'random'</span>, random_state<span class="op">=</span><span class="dv">87</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    X_embedded <span class="op">=</span> tsne.fit_transform(nsduh_tsne)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(i))</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'KL divergence: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(tsne.kl_divergence_))</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    perplexities_tsne[i] <span class="op">=</span> (X_embedded, tsne.kl_divergence_, tsne)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code> 10%|█         | 1/10 [01:59&lt;17:53, 119.24s/it] 20%|██        | 2/10 [04:03&lt;16:15, 121.98s/it] 30%|███       | 3/10 [06:17&lt;14:53, 127.70s/it] 40%|████      | 4/10 [08:39&lt;13:20, 133.40s/it] 50%|█████     | 5/10 [11:04&lt;11:27, 137.42s/it] 60%|██████    | 6/10 [13:30&lt;09:21, 140.41s/it] 70%|███████   | 7/10 [16:03&lt;07:13, 144.41s/it] 80%|████████  | 8/10 [18:33&lt;04:52, 146.23s/it] 90%|█████████ | 9/10 [21:08&lt;02:29, 149.10s/it]100%|██████████| 10/10 [23:51&lt;00:00, 143.19s/it]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Perplexity: 10
+KL divergence: 2.191544532775879
+Perplexity: 20
+KL divergence: 2.1266136169433594
+Perplexity: 30
+KL divergence: 2.0872268676757812
+Perplexity: 40
+KL divergence: 2.0713226795196533
+Perplexity: 50
+KL divergence: 2.0573341846466064
+Perplexity: 60
+KL divergence: 2.0417065620422363
+Perplexity: 70
+KL divergence: 2.0197837352752686
+Perplexity: 80
+KL divergence: 2.0085525512695312
+Perplexity: 90
+KL divergence: 1.9941091537475586
+Perplexity: 100
+KL divergence: 1.9927387237548828</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="28">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the X_embedded for each perplexity in its own subplot</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">30</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'TSNE with different perplexities for PCA data'</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, j <span class="kw">in</span> <span class="bu">enumerate</span>(perplexities_tsne.keys()):</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(x<span class="op">=</span>perplexities_tsne[j][<span class="dv">0</span>][:, <span class="dv">0</span>], y<span class="op">=</span>perplexities_tsne[j][<span class="dv">0</span>][:, <span class="dv">1</span>], ax<span class="op">=</span>axes[i], hue<span class="op">=</span>nsduh.dropna()[<span class="st">'smipppy'</span>])</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    axes[i].set_title(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(j))</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    axes[i].set_xlim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the x-axis limits</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    axes[i].set_ylim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the y-axis limits</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># set legend title</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    axes[i].legend(title<span class="op">=</span><span class="st">'Probability Severe Mental Illness'</span>, loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="dim-reduction_files/figure-html/cell-12-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>We can see from these plots that the t-SNE embeddings perform best when the perplexity value is 100, which minimizes our KL divergence. However, we see that our target variable, <code>smippy</code>, is not separated well using these embeddings, even after our PCA dimensionality reduction. We do see that some of the higher values for <code>smippy</code> are clustered together, indicating some small amount of separation. We also see some clustering that doesn’t seem related to <code>smippy</code> but still provides valuable information. Overall, these embeddings do not separate the data well because of its high dimensionality.</p>
+<div class="cell" data-execution_count="27">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pca_trimmed <span class="op">=</span> pca_results[:, :<span class="dv">50</span>].copy()</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>perplexities_tsne_trimmed <span class="op">=</span> {}</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">10</span>, <span class="dv">101</span>, <span class="dv">10</span>)):</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    tsne <span class="op">=</span> TSNE(n_components<span class="op">=</span><span class="dv">2</span>, perplexity<span class="op">=</span>i, learning_rate<span class="op">=</span><span class="st">'auto'</span>, init<span class="op">=</span><span class="st">'random'</span>, random_state<span class="op">=</span><span class="dv">87</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    X_embedded <span class="op">=</span> tsne.fit_transform(pca_trimmed)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(i))</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'KL divergence: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(tsne.kl_divergence_))</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    perplexities_tsne_trimmed[i] <span class="op">=</span> (X_embedded, tsne.kl_divergence_, tsne)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code> 10%|█         | 1/10 [01:58&lt;17:42, 118.04s/it] 20%|██        | 2/10 [03:54&lt;15:37, 117.14s/it] 30%|███       | 3/10 [05:43&lt;13:12, 113.18s/it] 40%|████      | 4/10 [07:47&lt;11:44, 117.49s/it] 50%|█████     | 5/10 [09:37&lt;09:33, 114.78s/it] 60%|██████    | 6/10 [11:30&lt;07:36, 114.18s/it] 70%|███████   | 7/10 [13:30&lt;05:48, 116.16s/it] 80%|████████  | 8/10 [15:34&lt;03:57, 118.67s/it] 90%|█████████ | 9/10 [17:45&lt;02:02, 122.62s/it]100%|██████████| 10/10 [20:00&lt;00:00, 120.07s/it]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Perplexity: 10
+KL divergence: 1.8178658485412598
+Perplexity: 20
+KL divergence: 1.706322193145752
+Perplexity: 30
+KL divergence: 1.6597427129745483
+Perplexity: 40
+KL divergence: 1.6305937767028809
+Perplexity: 50
+KL divergence: 1.6179404258728027
+Perplexity: 60
+KL divergence: 1.597257375717163
+Perplexity: 70
+KL divergence: 1.5813871622085571
+Perplexity: 80
+KL divergence: 1.5653340816497803
+Perplexity: 90
+KL divergence: 1.5617610216140747
+Perplexity: 100
+KL divergence: 1.5542545318603516</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="29">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the X_embedded for each perplexity in its own subplot</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">30</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'TSNE with different perplexities for PCA data'</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, j <span class="kw">in</span> <span class="bu">enumerate</span>(perplexities_tsne_trimmed.keys()):</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(x<span class="op">=</span>perplexities_tsne_trimmed[j][<span class="dv">0</span>][:, <span class="dv">0</span>], y<span class="op">=</span>perplexities_tsne_trimmed[j][<span class="dv">0</span>][:, <span class="dv">1</span>], ax<span class="op">=</span>axes[i], hue<span class="op">=</span>nsduh.dropna()[<span class="st">'smipppy'</span>])</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    axes[i].set_title(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(j))</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    axes[i].set_xlim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the x-axis limits</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    axes[i].set_ylim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the y-axis limits</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># set legend title</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    axes[i].legend(title<span class="op">=</span><span class="st">'Probability Severe Mental Illness'</span>, loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="dim-reduction_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Using just the first 50 principle components, we can see a little more separation, but tSNE generally appears to be a poor choice for dimensionality reduction in this case.</p>
 
 
 </section>

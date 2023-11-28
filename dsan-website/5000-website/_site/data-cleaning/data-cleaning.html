@@ -229,7 +229,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../clustering/work-in-progress.html" class="sidebar-item-text sidebar-link">
+  <a href="../clustering/clustering.ipynb" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Clustering</span></a>
   </div>
 </li>
@@ -6628,17 +6628,20 @@ i Specify the column types or set `show_col_types = FALSE` to quiet this message
 <span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb97-10"><a href="#cb97-10" aria-hidden="true" tabindex="-1"></a>nsduh_2021 <span class="ot">&lt;-</span> <span class="fu">bake</span>(<span class="fu">prep</span>(recipe, <span class="at">training =</span> nsduh_2021), <span class="at">new_data =</span> nsduh_2021)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-error">
+<pre><code>ERROR: Error in gower_work(x = x, y = y, pair_x = pair_x, pair_y = pair_y, n = n, : Column 2 of x is of class character while matching column 2 of y is of class factor</code></pre>
+</div>
 </div>
 <div class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(nsduh_2021, <span class="at">file =</span> <span class="st">"../../data/clean_data/nsduh_2021.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(nsduh_2021, <span class="at">file =</span> <span class="st">"../../data/clean_data/nsduh_2021.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(nsduh_2021, <span class="at">file =</span> <span class="st">"../../data/clean_data/nsduh_2021.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(nsduh_2021, <span class="at">file =</span> <span class="st">"../../data/clean_data/nsduh_2021.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 

@@ -37,7 +37,7 @@ website:
       text: Data Exploration
     - href: naive-bayes/naive-bayes.ipynb
       text: Naïve Bayes
-    - href: clustering/work-in-progress.ipynb
+    - href: clustering/clustering.ipynb
       text: Clustering
     - href: dim-reduction/dim-reduction.ipynb
       text: Dimensionality Reduction
