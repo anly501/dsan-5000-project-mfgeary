@@ -272,6 +272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#principle-component-analysis-pca" id="toc-principle-component-analysis-pca" class="nav-link" data-scroll-target="#principle-component-analysis-pca">Principle Component Analysis (PCA)</a></li>
   <li><a href="#t-distributed-stochastic-neighbor-embedding-t-sne" id="toc-t-distributed-stochastic-neighbor-embedding-t-sne" class="nav-link" data-scroll-target="#t-distributed-stochastic-neighbor-embedding-t-sne">T-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
   </ul></li>
+  <li><a href="#evaluation-and-comparison" id="toc-evaluation-and-comparison" class="nav-link" data-scroll-target="#evaluation-and-comparison">Evaluation and Comparison</a></li>
   </ul>
 </nav>
     </div>
@@ -508,7 +509,7 @@ KL divergence: 2.9646353721618652</code></pre>
 <p><img src="dim-reduction_files/figure-html/cell-9-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p>Based on these plots of the t-SNE embedding, we can see that the optimal perplexity value is 10. When the perplexity value is 10, the KL divergence is minimized and the t-SNE embedding is most accurate.</p>
+<p>Based on these plots of the t-SNE embedding, we can see that the optimal perplexity value is 10. When the perplexity value is 10, the KL divergence is minimized and the t-SNE embedding is most accurate. Our optimal KL divergence is about 2.8 which is very high, indicating that this is a poor t-SNE embedding.</p>
 <p>Overall, we can say that t-SNE is not a very good choice for dimensionality reduction in this case. When we have such high dimensional data, we should rely on a different dimensionality reduction technique such as PCA.</p>
 <div class="cell" data-execution_count="26">
 <details>
@@ -646,20 +647,51 @@ KL divergence: 1.9927387237548828</code></pre>
 <p><img src="dim-reduction_files/figure-html/cell-12-output-2.png" class="img-fluid"></p>
 </div>
 </div>
+<div class="cell" data-execution_count="34">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the KL divergence for different perplexity values</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>perplex_values <span class="op">=</span> [i <span class="cf">for</span> i <span class="kw">in</span> perplexities_tsne.keys()]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>kl_divergence <span class="op">=</span> [i[<span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> perplexities_tsne.values()]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>perplex_values, y<span class="op">=</span>kl_divergence)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Perplexity'</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'KL divergence'</span>)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Perplexity vs. KL divergence'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>Text(0.5, 1.0, 'Perplexity vs. KL divergence')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="dim-reduction_files/figure-html/cell-13-output-3.png" class="img-fluid"></p>
+</div>
+</div>
 <p>We can see from these plots that the t-SNE embeddings perform best when the perplexity value is 100, which minimizes our KL divergence. However, we see that our target variable, <code>smippy</code>, is not separated well using these embeddings, even after our PCA dimensionality reduction. We do see that some of the higher values for <code>smippy</code> are clustered together, indicating some small amount of separation. We also see some clustering that doesn’t seem related to <code>smippy</code> but still provides valuable information. Overall, these embeddings do not separate the data well because of its high dimensionality.</p>
+<p>The optimal perplexity is 100, but the KL divergence is still very high. Therefore, we will try t-SNE again using only the first 50 principle components from our PCA dimensionality reduction because t-SNE is optimal with 50 or less features.</p>
 <div class="cell" data-execution_count="27">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pca_trimmed <span class="op">=</span> pca_results[:, :<span class="dv">50</span>].copy()</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>perplexities_tsne_trimmed <span class="op">=</span> {}</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">10</span>, <span class="dv">101</span>, <span class="dv">10</span>)):</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    tsne <span class="op">=</span> TSNE(n_components<span class="op">=</span><span class="dv">2</span>, perplexity<span class="op">=</span>i, learning_rate<span class="op">=</span><span class="st">'auto'</span>, init<span class="op">=</span><span class="st">'random'</span>, random_state<span class="op">=</span><span class="dv">87</span>)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    X_embedded <span class="op">=</span> tsne.fit_transform(pca_trimmed)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(i))</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'KL divergence: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(tsne.kl_divergence_))</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    perplexities_tsne_trimmed[i] <span class="op">=</span> (X_embedded, tsne.kl_divergence_, tsne)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pca_trimmed <span class="op">=</span> pca_results[:, :<span class="dv">50</span>].copy()</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>perplexities_tsne_trimmed <span class="op">=</span> {}</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">10</span>, <span class="dv">101</span>, <span class="dv">10</span>)):</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    tsne <span class="op">=</span> TSNE(n_components<span class="op">=</span><span class="dv">2</span>, perplexity<span class="op">=</span>i, learning_rate<span class="op">=</span><span class="st">'auto'</span>, init<span class="op">=</span><span class="st">'random'</span>, random_state<span class="op">=</span><span class="dv">87</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    X_embedded <span class="op">=</span> tsne.fit_transform(pca_trimmed)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(i))</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'KL divergence: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(tsne.kl_divergence_))</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    perplexities_tsne_trimmed[i] <span class="op">=</span> (X_embedded, tsne.kl_divergence_, tsne)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code> 10%|█         | 1/10 [01:58&lt;17:42, 118.04s/it] 20%|██        | 2/10 [03:54&lt;15:37, 117.14s/it] 30%|███       | 3/10 [05:43&lt;13:12, 113.18s/it] 40%|████      | 4/10 [07:47&lt;11:44, 117.49s/it] 50%|█████     | 5/10 [09:37&lt;09:33, 114.78s/it] 60%|██████    | 6/10 [11:30&lt;07:36, 114.18s/it] 70%|███████   | 7/10 [13:30&lt;05:48, 116.16s/it] 80%|████████  | 8/10 [15:34&lt;03:57, 118.67s/it] 90%|█████████ | 9/10 [17:45&lt;02:02, 122.62s/it]100%|██████████| 10/10 [20:00&lt;00:00, 120.07s/it]</code></pre>
@@ -690,19 +722,19 @@ KL divergence: 1.5542545318603516</code></pre>
 <div class="cell" data-execution_count="29">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the X_embedded for each perplexity in its own subplot</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">30</span>))</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'TSNE with different perplexities for PCA data'</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, j <span class="kw">in</span> <span class="bu">enumerate</span>(perplexities_tsne_trimmed.keys()):</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(x<span class="op">=</span>perplexities_tsne_trimmed[j][<span class="dv">0</span>][:, <span class="dv">0</span>], y<span class="op">=</span>perplexities_tsne_trimmed[j][<span class="dv">0</span>][:, <span class="dv">1</span>], ax<span class="op">=</span>axes[i], hue<span class="op">=</span>nsduh.dropna()[<span class="st">'smipppy'</span>])</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    axes[i].set_title(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(j))</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    axes[i].set_xlim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the x-axis limits</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    axes[i].set_ylim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the y-axis limits</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># set legend title</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    axes[i].legend(title<span class="op">=</span><span class="st">'Probability Severe Mental Illness'</span>, loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the X_embedded for each perplexity in its own subplot</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">30</span>))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'TSNE with different perplexities for PCA data'</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, j <span class="kw">in</span> <span class="bu">enumerate</span>(perplexities_tsne_trimmed.keys()):</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(x<span class="op">=</span>perplexities_tsne_trimmed[j][<span class="dv">0</span>][:, <span class="dv">0</span>], y<span class="op">=</span>perplexities_tsne_trimmed[j][<span class="dv">0</span>][:, <span class="dv">1</span>], ax<span class="op">=</span>axes[i], hue<span class="op">=</span>nsduh.dropna()[<span class="st">'smipppy'</span>])</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    axes[i].set_title(<span class="st">'Perplexity: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(j))</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    axes[i].set_xlim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the x-axis limits</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    axes[i].set_ylim([<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>])  <span class="co"># Set the y-axis limits</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># set legend title</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    axes[i].legend(title<span class="op">=</span><span class="st">'Probability Severe Mental Illness'</span>, loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
@@ -767,13 +799,48 @@ KL divergence: 1.5542545318603516</code></pre>
   if pd.api.types.is_categorical_dtype(vector):</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="dim-reduction_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
+<p><img src="dim-reduction_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p>Using just the first 50 principle components, we can see a little more separation, but tSNE generally appears to be a poor choice for dimensionality reduction in this case.</p>
-
-
+<div class="cell" data-execution_count="35">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the KL divergence for different perplexity values</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>perplex_values <span class="op">=</span> [i <span class="cf">for</span> i <span class="kw">in</span> perplexities_tsne_trimmed.keys()]</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>kl_divergence <span class="op">=</span> [i[<span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> perplexities_tsne_trimmed.values()]</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span>perplex_values, y<span class="op">=</span>kl_divergence)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Perplexity'</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'KL divergence'</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Perplexity vs. KL divergence'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+/Users/mariongeary/anaconda3/envs/dsan5000/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<pre><code>Text(0.5, 1.0, 'Perplexity vs. KL divergence')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="dim-reduction_files/figure-html/cell-16-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Using just the first 50 principle components, we can see a little more separation, but t-SNE generally appears to be a poor choice for dimensionality reduction in this case. We also see that a high perplexity is the best for minimizing our KL divergence, but it still remains relatively high at 1.5. However, this is the lowest KL divergence we have seen so far, meaning that t-SNE has worked best on the first 50 principle components of the NSDUH data.</p>
 </section>
+</section>
+<section id="evaluation-and-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-and-comparison">Evaluation and Comparison</h2>
+<p>Through this analysis, we see that PCA is a very effective means of reducting the dimensionality of this dataset. We were able to reduce the number of features from 1700 to 150 while still explaining about 25% of the variance in the data. This is a significant reduction in the number of features (about 10 times fewer features), and we can use these 150 principle components in our analysis.</p>
+<p>For t-SNE, the results are less clear. First, we attempted to us t-SNE to reduce the dimensionality of the full NSDUH dataset. t-SNE struggled to provide any clear separability with this data. Next, we used t-SNE to attempt to further reduce the dimensionality of the principle components we obtained from PCA. This also did not provide any clear separability, though it performed slightly better than the full NSDUH dataset. Finally, we tried t-SNE on the first 50 principle components, which provided slightly better separability than the other two methods. However, we can still see that PCA is a much better choice for dimensionality reduction in this case. This is about as expected because t-SNE performs best with less than 50 features. Our data has very high dimensionality, so PCA is the best choice.</p>
+
+
 </section>
 
 </main> <!-- /main -->
