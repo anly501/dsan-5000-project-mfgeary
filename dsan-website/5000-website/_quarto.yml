@@ -2,19 +2,68 @@ project:
   type: website
 
 website:
-  title: "DSAN-5000: Project"
   navbar:
+    tools:
+      - icon: github
+        href: https://github.com/mfgeary
+      - icon: linkedin
+        href: https://www.linkedin.com/in/marion-geary-bauman
+    title: "DSAN 5000: Cannabis and Psychosis"
     left:
-      - href: index.qmd
-        text: Home
-      - href: clustering/clustering.qmd
-        text: Clustering
-      - href: eda/eda.ipynb
-        text: Data Exploration
+      - text: Home
+        href: https://mgb.georgetown.domains
+    collapse: false
+  sidebar:
+    style: "docked"
+    contents:
+    - href: index.qmd
+      text: About Marion
+    - href: https://github.com/anly501/dsan-5000-project-mfgeary
+      text: Code
+      icon: github
+    - section: Data
+      contents:
+        - text: Raw Data
+          href: https://github.com/anly501/dsan-5000-project-mfgeary/tree/main/dsan-website/5000-website/data/raw_data
+        - text: Clean Data
+          href: https://github.com/anly501/dsan-5000-project-mfgeary/tree/main/dsan-website/5000-website/data
+    - href: introduction/introduction.qmd
+      text: Introduction
+    - href: data-collection/data-collection.ipynb
+      text: Data Gathering
+    - href: data-cleaning/data-cleaning.ipynb
+      text: Data Cleaning
+    - href: eda/eda.ipynb
+      text: Data Exploration
+    - href: naive-bayes/naive-bayes.ipynb
+      text: Naïve Bayes
+    - href: clustering/clustering.ipynb
+      text: Clustering
+    - href: dim-reduction/dim-reduction.ipynb
+      text: Dimensionality Reduction
+    - section: Decision Trees
+      contents:
+      - href: decision-tree/classification/work-in-progress.ipynb
+        text: Classification
+      - href: decision-tree/regression/work-in-progress.ipynb
+        text: Regression
+    - href: arm/work-in-progress.ipynb
+      text: ARM
+    - href: conclusions/work-in-progress.ipynb
+      text: Conclusions
+  page-footer: 
+    left: "Authored by Marion Geary Bauman, 2023"
+    right:
+      - icon: github
+        href: https://github.com/mfgeary
+      - icon: linkedin
+        href: https://www.linkedin.com/in/marion-geary-bauman
+
 format:
   html:
-    theme: cosmo
+    theme: theme.scss
     toc: true
-
-
-
+    code-fold: true
+    mainfont: Lato
+    css: style.css
+    linkcolor: "#000000"

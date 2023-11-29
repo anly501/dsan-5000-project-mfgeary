@@ -1,1 +1,9 @@
 .DS_Store
+*.icloud
+*.csv
+*.txt
+*.json
+*.xlsx
+/.quarto/
+*.RData
+*.Rdata
