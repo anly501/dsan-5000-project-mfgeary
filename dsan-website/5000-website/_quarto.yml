@@ -43,9 +43,9 @@ website:
       text: Dimensionality Reduction
     - section: Decision Trees
       contents:
-      - href: decision-tree/classification/work-in-progress.ipynb
+      - href: decision-tree/classification/classification.ipynb
         text: Classification
-      - href: decision-tree/regression/work-in-progress.ipynb
+      - href: decision-tree/regression/regression.ipynb
         text: Regression
     - href: arm/work-in-progress.ipynb
       text: ARM
