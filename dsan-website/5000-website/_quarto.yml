@@ -47,8 +47,8 @@ website:
         text: Classification
       - href: decision-tree/regression/regression.ipynb
         text: Regression
-    - href: arm/work-in-progress.ipynb
-      text: ARM
+    - href: sentiment_analysis/sentiment_analysis.ipynb
+      text: Sentiment Analysis
     - href: conclusions/work-in-progress.ipynb
       text: Conclusions
   page-footer: 
