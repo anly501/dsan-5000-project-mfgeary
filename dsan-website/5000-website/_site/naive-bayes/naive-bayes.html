@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -212,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../clustering/clustering.ipynb" class="sidebar-item-text sidebar-link">
+  <a href="../clustering/clustering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Clustering</span></a>
   </div>
 </li>
@@ -233,14 +252,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../decision-tree/classification/classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Classification</span></a>
+  <a href="../decision-tree/regression/regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../decision-tree/regression/regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Regression</span></a>
+  <a href="../decision-tree/classification/classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification</span></a>
   </div>
 </li>
       </ul>
@@ -307,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Naïve Bayes has the moniker “naïve” because it relies on a naïve assumption that is generally not true in practice. It assumes that all features in the data are independent of one another. While this assumption is rarely true, we can still get good results by using the Naïve Bayes model.</p>
 <p>Naïve Bayes works for numeric and textual data. For numeric data, we use a Gaussian Naïve Bayes model. Gaussian Naïve Bayes works by using a normal distribution to model the data. The model then calculates the probability of the input value given each class, and the class with the highest probability is returned as the prediction.</p>
 <p>We use a Bernoulli Naïve Bayes (binary target) or Multinomial Naïve Bayes (multiclass target) model for factor data. Multinomial Naïve Bayes makes predictions by calculating the probability of the input value given each class. The class with the highest probability is then returned as the prediction.</p>
-<p>In this section, I will use a Multinomial Naïve Bayes model to classify text data to determine which of the subreddits it belongs to out of r/Psychosis, r/schizophrenia, and r/weed. For the record data, I will use a Bernoulli Naïve Bayes to predict whether an individual uses cannabis based on their mental health data.</p>
+<p>In this section, I will use a Multinomial Naïve Bayes model to classify text data to determine which of the subreddits it belongs to out of r/Psychosis, r/schizophrenia, and r/weed. For the record data, I will use a Bernoulli Naïve Bayes to predict whether an individual uses cannabis based on their mental health data using data from Setién Suero et al <span class="citation" data-cites="Setién-Suero2017">(<a href="#ref-Setién-Suero2017" role="doc-biblioref">Setién-Suero et al. 2017</a>)</span> .</p>
 </section>
 <section id="data-preparation" class="level2">
 <h2 class="anchored" data-anchor-id="data-preparation">Data Preparation</h2>
@@ -1754,9 +1773,14 @@ F1: 77.18%</code></pre>
 <p>We will continue to explore this text in future sections to determine sentiment regarding cannabis use and psychosis.</p>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Setién-Suero2017" class="csl-entry" role="listitem">
+Setién-Suero, Esther, Karl Neergaard, Mariluz Ramírez-Bonilla, Patricia Correa-Ghisays, Lourdes Fañanás, Benedicto Crespo-Facorro, and Rosa Ayesa-Arriola. 2017. <span>“<span class="nocase">Cannabis use in male and female first episode of non-affective psychosis patients: Long-term clinical, neuropsychological and functional differences</span>,”</span> August. <a href="https://doi.org/10.1371/journal.pone.0183613">https://doi.org/10.1371/journal.pone.0183613</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

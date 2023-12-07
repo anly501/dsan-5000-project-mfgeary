@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -207,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../clustering/clustering.ipynb" class="sidebar-item-text sidebar-link">
+  <a href="../clustering/clustering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Clustering</span></a>
   </div>
 </li>
@@ -228,14 +247,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../decision-tree/classification/classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Classification</span></a>
+  <a href="../decision-tree/regression/regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../decision-tree/regression/regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Regression</span></a>
+  <a href="../decision-tree/classification/classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification</span></a>
   </div>
 </li>
       </ul>
@@ -296,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>In this section, I will be conducting dimensionality reduct in order to reduce the number of features in the NSDUH dataset. Even after extensive data cleaning and removing nearly half of the features in the NSDUH dataset, there are still about 1700 features left. This is an unmanageable number of features for this task, so I will be exploring dimensionality reduction techniques to reduce the number of features.</p>
+<p>In this section, I will be conducting dimensionality reduct in order to reduce the number of features in the NSDUH dataset <span class="citation" data-cites="nsduh">(<a href="#ref-nsduh" role="doc-biblioref">Behavioral Health Statistics and Quality 2022</a>)</span>. Even after extensive data cleaning and removing nearly half of the features in the NSDUH dataset, there are still about 1700 features left. This is an unmanageable number of features for this task, so I will be exploring dimensionality reduction techniques to reduce the number of features.</p>
 <section id="project-project-proposal" class="level2">
 <h2 class="anchored" data-anchor-id="project-project-proposal">Project Project Proposal</h2>
 <section id="dimensionality-reduction-overview" class="level3">
@@ -307,7 +326,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="tools" class="level3">
 <h3 class="anchored" data-anchor-id="tools">Tools</h3>
-<p>In order to perform dimensionality reduction, I will be using the following tools: - Python - scikit-learn - pandas - numpy - matplotlib - seaborn</p>
+<p>In order to perform dimensionality reduction, I will be using the following tools:</p>
+<ul>
+<li>Python</li>
+<li>scikit-learn</li>
+<li>pandas</li>
+<li>numpy</li>
+<li>matplotlib</li>
+<li>seaborn</li>
+</ul>
 </section>
 </section>
 <section id="code-implementation" class="level2">
@@ -841,9 +868,14 @@ KL divergence: 1.5542545318603516</code></pre>
 <p>For t-SNE, the results are less clear. First, we attempted to us t-SNE to reduce the dimensionality of the full NSDUH dataset. t-SNE struggled to provide any clear separability with this data. Next, we used t-SNE to attempt to further reduce the dimensionality of the principle components we obtained from PCA. This also did not provide any clear separability, though it performed slightly better than the full NSDUH dataset. Finally, we tried t-SNE on the first 50 principle components, which provided slightly better separability than the other two methods. However, we can still see that PCA is a much better choice for dimensionality reduction in this case. This is about as expected because t-SNE performs best with less than 50 features. Our data has very high dimensionality, so PCA is the best choice.</p>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-nsduh" class="csl-entry" role="listitem">
+Behavioral Health Statistics, Center for, and Quality. 2022. <span>“2021 National Survey on Drug Use and Health Public Use File Codebook.”</span> Substance Abuse and Mental Health Services Administration, Rockville, MD.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

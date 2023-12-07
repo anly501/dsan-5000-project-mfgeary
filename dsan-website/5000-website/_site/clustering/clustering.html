@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>clustering</title>
+<title>Clustering</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -60,6 +94,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../style.css">
 </head>
@@ -93,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../clustering/clustering.html">Clustering</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -173,7 +209,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../clustering/clustering.ipynb" class="sidebar-item-text sidebar-link">
+  <a href="../clustering/clustering.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Clustering</span></a>
   </div>
 </li>
@@ -194,14 +230,14 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../decision-tree/classification/classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Classification</span></a>
+  <a href="../decision-tree/regression/regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../decision-tree/regression/regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Regression</span></a>
+  <a href="../decision-tree/classification/classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification</span></a>
   </div>
 </li>
       </ul>
@@ -228,20 +264,634 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#clustering" id="toc-clustering" class="nav-link active" data-scroll-target="#clustering">Clustering</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#theory" id="toc-theory" class="nav-link" data-scroll-target="#theory">Theory</a>
+  <ul class="collapse">
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering">K-Means Clustering</a></li>
+  <li><a href="#dbscan" id="toc-dbscan" class="nav-link" data-scroll-target="#dbscan">DBSCAN</a></li>
+  <li><a href="#hierarchical-clustering" id="toc-hierarchical-clustering" class="nav-link" data-scroll-target="#hierarchical-clustering">Hierarchical Clustering</a></li>
+  <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">Model Selection</a></li>
+  </ul></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul class="collapse">
+  <li><a href="#k-means-clustering-1" id="toc-k-means-clustering-1" class="nav-link" data-scroll-target="#k-means-clustering-1">K-Means Clustering</a></li>
+  <li><a href="#dbscan-1" id="toc-dbscan-1" class="nav-link" data-scroll-target="#dbscan-1">DBSCAN</a></li>
+  <li><a href="#hierarchical-clustering-1" id="toc-hierarchical-clustering-1" class="nav-link" data-scroll-target="#hierarchical-clustering-1">Hierarchical Clustering</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#final-results" id="toc-final-results" class="nav-link" data-scroll-target="#final-results">Final Results</a></li>
+  <li><a href="#comparison" id="toc-comparison" class="nav-link" data-scroll-target="#comparison">Comparison</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Clustering</h1>
+</div>
 
 
-<section id="clustering" class="level1">
-<h1>Clustering</h1>
-<p>Build out your website tab for “clustering”</p>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this section, I will be using various clustering algorithms to cluster data from the National Survey on Drug Use and Health (NSDUH) performed by the Substance Abuse and Mental Health Services Administration (SAMHSA) in 2021. This survey is conducted each year and provides information on drug usage and mental health on tens of thousands of Americans, giving insights into the annual trends in the usage of illicit substances and the state of mental health.</p>
+<p>Throughout this project, my goal has been to identify a link between the usage of cannabis and psychosis. With these clustering algorithms, I hope to identify a link between the usage of cannabis and mental health outcomes. While the data includes very detailed information on drug usage, mental illness information is limited due to the sensitive nature of the data. We will use the variable <code>smipppy</code>, (Probability of Serious Mental Illness in Past Year) as a proxy for psychosis. We will assess how well the clusters based on drug usage data align with the variable <code>smipppy</code> to continue working to identify a link between cannabis usage and psychosis.</p>
+</section>
+<section id="theory" class="level2">
+<h2 class="anchored" data-anchor-id="theory">Theory</h2>
+<p>Before we begin implementing the clustering algorithms, we will briefly discuss the theory underlying each algorithm. We will use three different approaches for clustering: k-means clustering, DBSCAN, and hierarchical clustering.</p>
+<section id="k-means-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="k-means-clustering">K-Means Clustering</h3>
+<p>K-means clustering is a partitional clustering algorithm that aims to partition, or divide, the data into <code>k</code> clusters. In k-means clustering, <code>k</code> is a hyperparameter that should be tuned to determine the optimal number of clusters for a given dataset.</p>
+<p>In k-means, the center of each cluster is referred to as the “centroid”. For each of the <code>k</code> clusters, a centroid is computed by finding the center of all the points in the cluster. The centroid can be computed using the mean, median, mode, or another measure of centrality. Often, the initial centroids are chosen at random (though there are more principled ways to choose the initial centroids). Each observation in the data is assigned to a cluster based on whichever centroid it is closest to. The distance metric is a hyperparameter that can be selected by the user. Once the observations have been assigned to clusters, the centroids are then updated by averaging the observations in the cluster. This process is repeated until the clusters become stable or until a maximum number of iterations has been reached.</p>
+<p>It is noteable that k-means clustering can result in different clusters each time it is run, depending on the separability of the data and the starting position of the centroids. Like most machine learning models, it involves an element of randomness that makes the results slightly different each time.</p>
+</section>
+<section id="dbscan" class="level3">
+<h3 class="anchored" data-anchor-id="dbscan">DBSCAN</h3>
+<p>Density-based spatial clustering of applications with noise, more commonly known as DBSCAN, is a non-parametric clustering algorithm. Similar to k-means, it is a partitional algorithm that divides the data into a given number of clusters. DBSCAN groups points together based on density, grouping together points that a highly packed together.</p>
+<p>DBSCAN works by identifying areas of high density, where points are closely packed together as clusters. Points within a certain distance of the cluster will be included in the cluster. The points in the same neighborhood, meaning the points that are within a certain small distance from each other, are grouped into clusters. This given small distance is known as <code>epsilon</code>, or <span class="math inline">\(\epsilon\)</span>. When tuning DBSCAN, one must choose an <code>epsilon</code> value rather than the number of clusters. The value for <code>epsilon</code> indirectly dictates the number of resulting clusters.</p>
+<p>The main advantage of DBSCAN is its ability to find non-linear patterns. DBSCAN is adept at identifying clusters that are not linearly separable, an advantage over k-means clustering. It is also more robust to noise than k-means because it does not rely on the mean as a measure of center (which is inherently affected by outliers). DBSCAN is also not impacted by the choice of any initial centroids, meaning its results are more consistent than k-means clustering.</p>
+<p>Source: <a href="https://en.wikipedia.org/wiki/DBSCAN">https://en.wikipedia.org/wiki/DBSCAN</a></p>
+</section>
+<section id="hierarchical-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="hierarchical-clustering">Hierarchical Clustering</h3>
+<p>Hierarchical clustering aims to organize the values into nested clusters, like a tree, where each observation can be in more than one cluster. The goal of hierarchical clustering is to define nested clusters from the data, grouping the data into successive groups that may be overlapping. Like partitional clustering, can still use decide the optimal number of clusters using the <code>n_clusters</code> hyperparameter.</p>
+<p>For our implementation of hierarchical clustering, we will be using the agglomerative clustering algorithm in <code>scikit-learn</code>. There are two types of hierarchical clustering: divise and agglomerative. Divise clustering works by recursive splitting the data into smaller groups, starting from the whole data set. Agglomerative clustering is a bottom up method that functions by assuming that each observation is in its own cluster. As the algorithm moves up the hierarchy, clusters are merged until the root of the tree forms one final cluster containing all the data. These two hierarchical clustering approaches will leads to different outcomes because of the different algorithmic mechanisms.</p>
+</section>
+<section id="model-selection" class="level3">
+<h3 class="anchored" data-anchor-id="model-selection">Model Selection</h3>
+<p>In order to determine the optimal hyperparameters for each model, we will rely on the silhouette score. Silhouette score is a measure of how similar a point is to its own cluster compared to other clusters. It ranges from -1 to 1, where -1 indicates that the clustering is very poor and 1 represents perfectly separated clusters.</p>
+<p>Throughout these modeling attempts, my goal with be to select the hyperparameters that maximize the silhouette score, resulting in the clusters with the highest separability. Since each point gets its own silhouette score, we will take the average of all the silhouette scores for all the observations based on a given clustering model. To compare the clustering methods to each other, we will determine which method produces the highest average silhouette score.</p>
+<p>I will also use the elbow method to determine the optimal hyperparameters. Often the highest separability and highest silhouette score occurs with a very high number of clusters. We can plot the number of clusters versus the silhouette score to find the “elbow” of the graph. This identifies where more clusters leads to diminishing returns, identifying the optimal number of clusters for the data. I will also use inertia as a metric for optimizing the number of clusters if the silhouette score is does not provide a clear elbow. Inertia is the sum of the squared distances between each point and the cluster center. Plotting interia versus the number of clusters is another helpful way to identify the optimal number of clusters, choosing the number of clusters that minimizes inertia and the number of clusters. The elbow will be the point where the inertia begins to decrease at a slower rate, showing that it is leveling off.</p>
+</section>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<p>Now that we have a strong theoretical understanding of each of these clustering algorithms, let’s apply them to our data in order to explore the link between cannabis usage and psychosis (using our proxy, <code>smipppy</code>).</p>
+<section id="data-selection" class="level4">
+<h4 class="anchored" data-anchor-id="data-selection">Data Selection</h4>
+<p>We will remove the target variable, <code>smipppy</code>, from the dataset. We will use it again at the end to assess the performance of our clustering algorithms.</p>
+<div class="cell" data-execution_count="12">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>nsduh <span class="op">=</span> pd.read_csv(<span class="st">'../../data/clean_data/nsduh_2021.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/4w/gxhbpkhj19j6ydpft6pz0grc0000gn/T/ipykernel_16402/3212366654.py:8: DtypeWarning: Columns (5,11,57,58,60,501,513,514,515,516,517,519,520,521,522,523,541,546,550,551,552,553,563,569,570,571,856,857,858,859,860,861,862,863,864,865,866,867,868,1056,1057,1058,1061,1066,1067,1068,1069,1070,1071,1072,1073,1074,1075,1076,1077,1078,1079,1080,1081,1082,1083,1084,1085,1086,1087,1088,1089,1090,1094,1095,1096,1097,1098,1099,1100,1101,1102,1103,1104,1105,1106,1107,1108,1109,1110,1111,1112,1113,1114,1115,1116,1117,1118,1119,1120,1121,1122,1123,1124,1125,1126,1127,1128,1129,1130,1131,1132,1133,1134,1135,1136,1137,1138,1139,1140,1141,1142,1143,1144,1145,1146,1147,1148,1149,1150,1151,1152,1153,1169,1170,1171,1172,1173,1174,1175,1176,1177,1178,1179,1180,1181,1182,1183,1184,1185,1186,1187,1188,1189,1190,1191,1192,1193,1194,1195,1196,1197,1198,1199,1200,1201,1202,1203,1204,1205,1206,1207,1208,1209,1210,1211,1212,1213,1214,1215,1216,1217,1218,1219,1220,1221,1222,1223,1224,1225,1250,1251,1252,1253,1254,1255,1256,1257,1258,1259,1260,1261,1262,1263,1264,1265,1266,1267,1268,1269,1270,1271,1272,1273,1274,1275,1276,1277,1278,1279,1280,1281,1282,1290,1291,1292,1293,1294,1295,1296,1297,1298,1299,1300,1301,1302,1303,1304,1305,1306,1307,1308,1309,1310,1311,1312,1313,1314,1315,1316,1317,1318,1319,1320,1321,1322,1323,1324,1325,1326,1327,1328,1329,1330,1331,1332,1333,1334,1335,1336,1337,1338,1339,1340,1341,1342,1343,1344,1345,1346,1347,1348,1349,1350,1351,1352,1353,1354,1355,1356,1357,1358,1359,1360,1361,1362,1363,1364,1365,1366,1367,1368,1369,1370,1371,1372,1373,1374,1375,1376,1377,1378,1379,1380,1381,1382,1383,1384,1385,1386,1387,1388,1389,1390,1391,1392,1393,1394,1395,1396,1397,1398,1399,1400,1401,1402,1403,1404,1405,1406,1407,1408,1409,1410,1411,1412,1413,1414,1415,1416,1417,1418,1419,1420,1421,1422,1423,1424,1425,1426,1427,1428,1429,1430,1431,1432,1433,1434,1435,1436,1437,1438,1439,1440,1441,1442,1443,1444,1445,1446,1447,1448,1449,1450,1451,1452,1453,1454,1455,1456,1457,1458,1459,1480,1504,1505,1506,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1598,1599,1600,1601,1602,1603,1622,1623,1624,1625,1626,1627,1628,1632,1633,1634,1635,1636,1637,1638,1639,1640,1641,1643,1645,1649,1650,1660,1662,1663,1669,1670,1671,1672,1674,1675,1676,1677,1678,1679,1680,1688,1690) have mixed types. Specify dtype option on import or set low_memory=False.
+  nsduh = pd.read_csv('../../data/clean_data/nsduh_2021.csv')</code></pre>
+</div>
+</div>
+</section>
+<section id="feature-selection" class="level4">
+<h4 class="anchored" data-anchor-id="feature-selection">Feature Selection</h4>
+<p>We will only the data that directly relates to cannabis usage for our clustering algorithms, shown in the code below. This will allow us to cluster the participants based on cannabis usage and determine if there is any connection between cannabis usage and probability of severe mental illness.</p>
+<div class="cell" data-execution_count="38">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select all the variables that are related to marijuana</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>nsduh_mj <span class="op">=</span> nsduh[[<span class="st">'mjage'</span>, <span class="st">'mjmfu'</span>, <span class="st">'mjyrtot'</span>, <span class="st">'mrbstway'</span>, <span class="st">'mrdaypyr'</span>, <span class="st">'mrdaypwk'</span>, <span class="st">'MR30EST'</span>]]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>nsduh_mj <span class="op">=</span> nsduh_mj.dropna()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="77">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nsduh_mj.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="77">
+<pre><code>Index(['mjage', 'mjmfu', 'mjyrtot', 'mrbstway', 'mrdaypyr', 'mrdaypwk',
+       'MR30EST'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<p>We turn “Never Used” into a numeric value so that the columns are numeric rather than categorical.</p>
+<div class="cell" data-execution_count="87">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change "Never Used" to -1 so that the data is numeric for clustering</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mjage'</span>] <span class="op">=</span> nsduh_mj[<span class="st">'mjage'</span>].replace(<span class="st">'Never Used'</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mjmfu'</span>] <span class="op">=</span> nsduh_mj[<span class="st">'mjmfu'</span>].replace(<span class="st">'Never Used'</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mjyrtot'</span>] <span class="op">=</span> nsduh_mj[<span class="st">'mjyrtot'</span>].replace(<span class="st">'Never Used'</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mrbstway'</span>] <span class="op">=</span> nsduh_mj[<span class="st">'mrbstway'</span>].replace(<span class="st">'Never Used'</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mrdaypyr'</span>] <span class="op">=</span> nsduh_mj[<span class="st">'mrdaypyr'</span>].replace(<span class="st">'Never Used'</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mrdaypwk'</span>] <span class="op">=</span> nsduh_mj[<span class="st">'mrdaypwk'</span>].replace(<span class="st">'Never Used'</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'MR30EST'</span>] <span class="op">=</span> nsduh_mj[<span class="st">'MR30EST'</span>].replace(<span class="st">'Never Used'</span>, <span class="op">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="k-means-clustering-1" class="level3">
+<h3 class="anchored" data-anchor-id="k-means-clustering-1">K-Means Clustering</h3>
+<p>We’ll begin with k-means clustering, using the elbow method to determine the optimal number of clusters.</p>
+<div class="cell" data-execution_count="89">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># silence warnings</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># K means clustering</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the data</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>scaled_nsduh_mj <span class="op">=</span> scaler.fit_transform(nsduh_mj)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>kmeans_data <span class="op">=</span> {}</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">11</span>)):</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>i, random_state<span class="op">=</span><span class="dv">812</span>, n_init<span class="op">=</span><span class="dv">10</span>, max_iter<span class="op">=</span><span class="dv">300</span>, init<span class="op">=</span><span class="st">'k-means++'</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    kmeans.fit(scaled_nsduh_mj)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    kmeans_data[i] <span class="op">=</span> kmeans.inertia_, silhouette_score(scaled_nsduh_mj, kmeans.labels_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 9/9 [06:33&lt;00:00, 43.77s/it]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="90">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the elbow curve</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">list</span>(kmeans_data.keys()), [x[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> kmeans_data.values()], marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of clusters'</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Inertia'</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Inertia for K-means clustering'</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the silhouette score</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">list</span>(kmeans_data.keys()), [x[<span class="dv">1</span>] <span class="cf">for</span> x <span class="kw">in</span> kmeans_data.values()], marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of clusters'</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Silhouette score'</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Silhouette score for K-means clustering'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="90">
+<pre><code>Text(0.5, 1.0, 'Silhouette score for K-means clustering')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-7-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Based on the number of clusters compared to inertia and silhouette score, we can determine that 7 is the optimal number of clusters for our data with k-means clustering. We will view the clustering results at the end of this section.</p>
+</section>
+<section id="dbscan-1" class="level3">
+<h3 class="anchored" data-anchor-id="dbscan-1">DBSCAN</h3>
+<p>Now, we will use DBSCAN to cluster our data. We will use the elbow method to determine the optimal value for epsilon that maximizes the silhouette score.</p>
+<div class="cell" data-execution_count="99">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DSBSCAN</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> DBSCAN</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>epsilons <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="dv">1</span>, <span class="fl">1.1</span>, <span class="fl">1.2</span>, <span class="fl">1.3</span>, <span class="fl">1.4</span>, <span class="fl">1.5</span>, <span class="fl">1.6</span>, <span class="fl">1.7</span>, <span class="fl">1.8</span>, <span class="fl">1.9</span>, <span class="dv">2</span>]</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the best epsilon</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>silhouette_scores_dbscan <span class="op">=</span> []</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epsilon <span class="kw">in</span> tqdm(epsilons):</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    dbscan <span class="op">=</span> DBSCAN(eps<span class="op">=</span>epsilon)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    dbscan.fit(scaled_nsduh_mj)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    sil_score <span class="op">=</span> silhouette_score(scaled_nsduh_mj, dbscan.labels_)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'For epsilon = </span><span class="sc">{</span>epsilon<span class="sc">}</span><span class="ss">, the silhouette score is </span><span class="sc">{</span>sil_score<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    silhouette_scores_dbscan.append(sil_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>  5%|▌         | 1/20 [00:47&lt;15:08, 47.84s/it] 10%|█         | 2/20 [01:36&lt;14:25, 48.08s/it] 15%|█▌        | 3/20 [02:26&lt;13:56, 49.22s/it] 20%|██        | 4/20 [03:17&lt;13:14, 49.67s/it] 25%|██▌       | 5/20 [04:06&lt;12:25, 49.67s/it] 30%|███       | 6/20 [04:55&lt;11:32, 49.45s/it] 35%|███▌      | 7/20 [05:44&lt;10:40, 49.26s/it] 40%|████      | 8/20 [06:32&lt;09:47, 48.99s/it] 45%|████▌     | 9/20 [07:21&lt;08:58, 48.96s/it] 50%|█████     | 10/20 [08:12&lt;08:15, 49.50s/it] 55%|█████▌    | 11/20 [09:03&lt;07:28, 49.85s/it] 60%|██████    | 12/20 [09:51&lt;06:34, 49.37s/it] 65%|██████▌   | 13/20 [10:41&lt;05:47, 49.64s/it] 70%|███████   | 14/20 [11:32&lt;05:00, 50.07s/it] 75%|███████▌  | 15/20 [12:23&lt;04:11, 50.20s/it] 80%|████████  | 16/20 [13:13&lt;03:21, 50.32s/it] 85%|████████▌ | 17/20 [14:04&lt;02:31, 50.47s/it] 90%|█████████ | 18/20 [14:55&lt;01:40, 50.46s/it] 95%|█████████▌| 19/20 [15:46&lt;00:50, 50.66s/it]100%|██████████| 20/20 [16:38&lt;00:00, 49.91s/it]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>For epsilon = 0.1, the silhouette score is 0.7716716852807383
+For epsilon = 0.2, the silhouette score is 0.7962269705021259
+For epsilon = 0.3, the silhouette score is 0.9546958208532622
+For epsilon = 0.4, the silhouette score is 0.9548504396515685
+For epsilon = 0.5, the silhouette score is 0.9548691739593684
+For epsilon = 0.6, the silhouette score is 0.9548920251982189
+For epsilon = 0.7, the silhouette score is 0.9548920251982189
+For epsilon = 0.8, the silhouette score is 0.9548920251982189
+For epsilon = 0.9, the silhouette score is 0.9548920251982189
+For epsilon = 1, the silhouette score is 0.954908252031212
+For epsilon = 1.1, the silhouette score is 0.954908252031212
+For epsilon = 1.2, the silhouette score is 0.954908252031212
+For epsilon = 1.3, the silhouette score is 0.954908252031212
+For epsilon = 1.4, the silhouette score is 0.9107544687998733
+For epsilon = 1.5, the silhouette score is 0.8988744638700626
+For epsilon = 1.6, the silhouette score is 0.9033803610771831
+For epsilon = 1.7, the silhouette score is 0.9033803459206876
+For epsilon = 1.8, the silhouette score is 0.9041820962892066
+For epsilon = 1.9, the silhouette score is 0.9085172753309191
+For epsilon = 2, the silhouette score is 0.9085655339345029</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="100">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the silhouette scores</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>plt.plot(epsilons, silhouette_scores_dbscan, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Epsilon'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Silhouette Score'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Silhouette Score for DBSCAN Clustering on NSDUH Marijuana Data'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="100">
+<pre><code>Text(0.5, 1.0, 'Silhouette Score for DBSCAN Clustering on NSDUH Marijuana Data')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-9-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Based on this elbow plot, it is clear that any epsilon between 0.3 and 1.3 will give us the same clusters. I will choose 0.4 as the optimal epsilon (though any epsilon between 0.3 and 1.3 will work equally well). We get a very high silhouette score, over 0.95, meaning the separability is very good between clusters.</p>
+</section>
+<section id="hierarchical-clustering-1" class="level3">
+<h3 class="anchored" data-anchor-id="hierarchical-clustering-1">Hierarchical Clustering</h3>
+<p>Finally, we will use hierarchical clustering to cluster our data. We will again use the elbow method to determine the optimal number of clusters based on silhouette score. We will use an agglomerative (bottom-up) clustering model.</p>
+<div class="cell" data-execution_count="109">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hierarchical clustering</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> AgglomerativeClustering</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the best number of clusters</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>silhouette_scores <span class="op">=</span> []</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> num_cluster <span class="kw">in</span> tqdm(<span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">11</span>, <span class="dv">1</span>)):</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    agg <span class="op">=</span> AgglomerativeClustering(n_clusters<span class="op">=</span>num_cluster)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    agg.fit(scaled_nsduh_mj)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    silhouette_scores.append(silhouette_score(scaled_nsduh_mj, agg.labels_))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 9/9 [36:59&lt;00:00, 246.59s/it]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="110">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the silhouette scores</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">11</span>), silhouette_scores, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of clusters'</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Silhouette Score'</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Silhouette Score for Hierarchical Clustering on NSDUH Marijuana Data'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="110">
+<pre><code>Text(0.5, 1.0, 'Silhouette Score for Hierarchical Clustering on NSDUH Marijuana Data')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-11-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Based on this elbow plot, we can see that 7 is the optimal number of clusters for the agglomerative clustering model with our dataset, where the silhouette score begins to level off. We will use 7 clusters for our agglomerative hierarchical clustering model.</p>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>Here, we will compare the final results from each of the three modeling approaches.</p>
+<section id="final-results" class="level3">
+<h3 class="anchored" data-anchor-id="final-results">Final Results</h3>
+<p>First, let’s fit the final models with the optimal hyperparameters. Based on the analysis above, we have chose the following hyperparameters for each model:</p>
+<ul>
+<li>K-means clustering: <code>n_clusters</code> = 7</li>
+<li>DBSCAN: <code>eps</code> = 0.4</li>
+<li>Agglomerative clustering: <code>n_clusters</code> = 7</li>
+</ul>
+<div class="cell" data-execution_count="114">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the optimal K-means</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">7</span>, random_state<span class="op">=</span><span class="dv">812</span>, n_init<span class="op">=</span><span class="dv">10</span>, max_iter<span class="op">=</span><span class="dv">300</span>, init<span class="op">=</span><span class="st">'k-means++'</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>kmeans.fit(scaled_nsduh_mj)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"K-means fitted"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the optimal DBSCAN</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>dbscan <span class="op">=</span> DBSCAN(eps<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>dbscan.fit(scaled_nsduh_mj)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"DBSCAN fitted"</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the optimal hierarchical clustering</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>agg <span class="op">=</span> AgglomerativeClustering(n_clusters<span class="op">=</span><span class="dv">7</span>)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>agg.fit(scaled_nsduh_mj)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hierarchical clustering fitted"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>K-means fitted
+DBSCAN fitted
+Hierarchical clustering fitted</code></pre>
+</div>
+</div>
+</section>
+<section id="comparison" class="level3">
+<h3 class="anchored" data-anchor-id="comparison">Comparison</h3>
+<p>Now that we have fit each of the final models to the dataset, let’s compare the results. First, let’s look at the silhouette scores for each of the models and the chosen number of clusters.</p>
+<div class="cell" data-execution_count="115">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"""</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ss">| Model                     | Silhouette Score | Number of Clusters |</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="ss">|---------------------------|------------------|--------------------|</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="ss">| K-means | </span><span class="sc">{</span>silhouette_score(scaled_nsduh_mj, kmeans.labels_)<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span><span class="bu">len</span>(<span class="bu">set</span>(kmeans.labels_))<span class="sc">}</span><span class="ss"> |</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="ss">| DBSCAN | </span><span class="sc">{</span>silhouette_score(scaled_nsduh_mj, dbscan.labels_)<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span><span class="bu">len</span>(<span class="bu">set</span>(dbscan.labels_))<span class="sc">}</span><span class="ss"> |</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="ss">| Hierarchical Clustering | </span><span class="sc">{</span>silhouette_score(scaled_nsduh_mj, agg.labels_)<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span><span class="bu">len</span>(<span class="bu">set</span>(agg.labels_))<span class="sc">}</span><span class="ss"> |"""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+| Model                     | Silhouette Score | Number of Clusters |
+|---------------------------|------------------|--------------------|
+| K-means | 0.9455399987899925 | 7 |
+| DBSCAN | 0.9548504396515685 | 18 |
+| Hierarchical Clustering | 0.9424280327592885 | 7 |</code></pre>
+</div>
+</div>
+<p>From this table, we can see that all three of the clustering algorithms result in very high silhouette scores, all around 0.95. This indicates that the clusters are very well separated, meaning that the clustering algorithms were able to identify distinct clusters in the data. This means there are clear groups within the cannabis usage data, which we can explore further by looking at the clusters themselves.</p>
+<p>Both the k-means model and the hierarchical clustering model resulted in 7 clusters, while the DBSCAN model resulted in 18 clusters. DBSCAN has a silhouette score of 0.955, while k-means has a score of 0.946 and hierarchical clustering has a score of 0.942. This indicates that the data is very well separated into clusters, regardless of the clustering algorithm used. Likely, this means that clusters are linearly separable. There is also a clear hierarchy in the data, as indicated by the high silhouette score for hierarchical clustering.</p>
+<p>Let’s visualize the clusters for each of the models. We will use the <code>smipppy</code> variable to color the clusters, allowing us to see how well the clusters align with the probability of severe mental illness.</p>
+<div class="cell" data-execution_count="128">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the K-means clusters</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">0</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">1</span>], hue<span class="op">=</span>kmeans.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mjage'</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mjmfu'</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">2</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">1</span>], hue<span class="op">=</span>kmeans.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mjyrtot'</span>)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mjmfu'</span>)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">2</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">3</span>], hue<span class="op">=</span>kmeans.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mjyrtot'</span>)</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrbstway'</span>)</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">4</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">3</span>], hue<span class="op">=</span>kmeans.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mrdaypyr'</span>)</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrbstway'</span>)</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">4</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">5</span>], hue<span class="op">=</span>kmeans.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mrdaypyr'</span>)</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrdaypwk'</span>)</span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">6</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">5</span>], hue<span class="op">=</span>kmeans.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'MR30EST'</span>)</span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrdaypwk'</span>)</span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-14-output-3.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-14-output-4.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-14-output-5.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-14-output-6.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="129">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the DBSCAN clusters</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">0</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">1</span>], hue<span class="op">=</span>dbscan.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'DBSCAN Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mjage'</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mjmfu'</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">2</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">1</span>], hue<span class="op">=</span>dbscan.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'DBSCAN Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mjyrtot'</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mjmfu'</span>)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">2</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">3</span>], hue<span class="op">=</span>dbscan.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'DBSCAN Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mjyrtot'</span>)</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrbstway'</span>)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">4</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">3</span>], hue<span class="op">=</span>dbscan.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'DBSCAN Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mrdaypyr'</span>)</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrbstway'</span>)</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">4</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">5</span>], hue<span class="op">=</span>dbscan.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'DBSCAN Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mrdaypyr'</span>)</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrdaypwk'</span>)</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">6</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">5</span>], hue<span class="op">=</span>dbscan.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'DBSCAN Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'MR30EST'</span>)</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrdaypwk'</span>)</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-15-output-3.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-15-output-4.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-15-output-5.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-15-output-6.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="132">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the agglomerative clusters</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">0</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">1</span>], hue<span class="op">=</span>agg.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hierarchical Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mjage'</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mjmfu'</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">2</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">1</span>], hue<span class="op">=</span>agg.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hierarchical Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mjyrtot'</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mjmfu'</span>)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">2</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">3</span>], hue<span class="op">=</span>agg.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hierarchical Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mjyrtot'</span>)</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrbstway'</span>)</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">4</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">3</span>], hue<span class="op">=</span>agg.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hierarchical Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mrdaypyr'</span>)</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrbstway'</span>)</span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">4</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">5</span>], hue<span class="op">=</span>agg.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hierarchical Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'mrdaypyr'</span>)</span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrdaypwk'</span>)</span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">6</span>], y<span class="op">=</span>scaled_nsduh_mj[:, <span class="dv">5</span>], hue<span class="op">=</span>agg.labels_, palette<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hierarchical Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'MR30EST'</span>)</span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'mrdaypwk'</span>)</span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-16-output-3.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-16-output-4.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-16-output-5.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-16-output-6.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="141">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert columns to numeric</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mjage'</span>] <span class="op">=</span> pd.to_numeric(nsduh_mj[<span class="st">'mjage'</span>])</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mjmfu'</span>] <span class="op">=</span> pd.to_numeric(nsduh_mj[<span class="st">'mjmfu'</span>])</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mjyrtot'</span>] <span class="op">=</span> pd.to_numeric(nsduh_mj[<span class="st">'mjyrtot'</span>])</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mrbstway'</span>] <span class="op">=</span> pd.to_numeric(nsduh_mj[<span class="st">'mrbstway'</span>])</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mrdaypyr'</span>] <span class="op">=</span> pd.to_numeric(nsduh_mj[<span class="st">'mrdaypyr'</span>])</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'mrdaypwk'</span>] <span class="op">=</span> pd.to_numeric(nsduh_mj[<span class="st">'mrdaypwk'</span>])</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'MR30EST'</span>] <span class="op">=</span> pd.to_numeric(nsduh_mj[<span class="st">'MR30EST'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="165">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the clusters with the original data</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'kmeans_labels'</span>] <span class="op">=</span> kmeans.labels_</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'dbscan_labels'</span>] <span class="op">=</span> dbscan.labels_</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>nsduh_mj[<span class="st">'agg_labels'</span>] <span class="op">=</span> agg.labels_</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the clusters with the original data</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># K-means Clustering</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].scatter(x<span class="op">=</span>nsduh_mj[<span class="st">'mjyrtot'</span>], y<span class="op">=</span>nsduh_mj[<span class="st">'mjmfu'</span>], c<span class="op">=</span>nsduh_mj[<span class="st">'kmeans_labels'</span>], cmap<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">'K-means Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'mjyrtot'</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'mjmfu'</span>)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="co"># DBSCAN Clustering</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].scatter(x<span class="op">=</span>nsduh_mj[<span class="st">'mjyrtot'</span>], y<span class="op">=</span>nsduh_mj[<span class="st">'mjmfu'</span>], c<span class="op">=</span>nsduh_mj[<span class="st">'dbscan_labels'</span>], cmap<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">'DBSCAN Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'mjyrtot'</span>)</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_ylabel(<span class="st">'mjmfu'</span>)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Hierarchical Clustering</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].scatter(x<span class="op">=</span>nsduh_mj[<span class="st">'mjyrtot'</span>], y<span class="op">=</span>nsduh_mj[<span class="st">'mjmfu'</span>], c<span class="op">=</span>nsduh_mj[<span class="st">'agg_labels'</span>], cmap<span class="op">=</span><span class="st">'Set1'</span>)</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">'Hierarchical Clustering on NSDUH Marijuana Data'</span>)</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'mjyrtot'</span>)</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'mjmfu'</span>)</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="co"># NSDUH Marijuana Data</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>nsduh_mj_smipppy <span class="op">=</span> nsduh[[<span class="st">'mjage'</span>, <span class="st">'mjmfu'</span>, <span class="st">'mjyrtot'</span>, <span class="st">'mrbstway'</span>, <span class="st">'mrdaypyr'</span>, <span class="st">'mrdaypwk'</span>, <span class="st">'MR30EST'</span>, <span class="st">'smipppy'</span>]]</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>nsduh_mj_smipppy <span class="op">=</span> nsduh_mj_smipppy.dropna()</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>nsduh_mj_smipppy[<span class="st">'mjyrtot'</span>] <span class="op">=</span> nsduh_mj_smipppy[<span class="st">'mjyrtot'</span>].replace(<span class="st">'Never Used'</span>, <span class="op">-</span><span class="dv">1</span>).astype(<span class="st">'int'</span>)</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>nsduh_mj_smipppy[<span class="st">'mjmfu'</span>] <span class="op">=</span> nsduh_mj_smipppy[<span class="st">'mjmfu'</span>].replace(<span class="st">'Never Used'</span>, <span class="op">-</span><span class="dv">1</span>).astype(<span class="st">'int'</span>)</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].scatter(x<span class="op">=</span>nsduh_mj_smipppy[<span class="st">'mjyrtot'</span>], y<span class="op">=</span>nsduh_mj_smipppy[<span class="st">'mjmfu'</span>], c<span class="op">=</span>nsduh_mj_smipppy[<span class="st">'smipppy'</span>])</span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">'NSDUH Marijuana Data'</span>)</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'mjyrtot'</span>)</span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_ylabel(<span class="st">'mjmfu'</span>)</span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a><span class="co"># add colorbar</span></span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>smipppy <span class="op">=</span> plt.cm.ScalarMappable()</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>smipppy.set_array(nsduh_mj_smipppy[<span class="st">'smipppy'</span>])</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> plt.colorbar(smipppy, ax<span class="op">=</span>axes[<span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">'smipppy'</span>)</span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="clustering_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Based on these many visualizations, we can see some clear patterns among the clusters. For all 3 algorithms, there are clearly some clusters that align with individuals who have never used cannabis. Among the other clusters, the pattern is less clear. When we compare the clustering with the <code>smipppy</code> variable, we can see that there is a connection between the clusters and the probability of severe mental illness, with some of the clusters seeming to have more light colored points (indicating a higher probability of severe mental illness) than others. However, the clusters do not align very closely with the probability of severe mental illness, indicating that there is not a clear link between cannabis usage and severe mental illness. Likely, we would need to visualize more than 2 dimensions to see a clearer link between cannabis usage and severe mental illness, and there are many confounding factors than can impact the probability of severe mental illness.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -43,10 +43,10 @@ website:
       text: Dimensionality Reduction
     - section: Decision Trees
       contents:
-      - href: decision-tree/classification/classification.ipynb
-        text: Classification
       - href: decision-tree/regression/regression.ipynb
         text: Regression
+      - href: decision-tree/classification/classification.ipynb
+        text: Classification
     - href: sentiment_analysis/sentiment_analysis.ipynb
       text: Sentiment Analysis
     - href: conclusions/conclusions.ipynb

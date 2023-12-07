@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -130,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../decision-tree/classification/classification.html">Decision Trees</a></li><li class="breadcrumb-item"><a href="../../decision-tree/regression/regression.html">Regression</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../decision-tree/regression/regression.html">Decision Trees</a></li><li class="breadcrumb-item"><a href="../../decision-tree/regression/regression.html">Regression</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -210,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../clustering/clustering.ipynb" class="sidebar-item-text sidebar-link">
+  <a href="../../clustering/clustering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Clustering</span></a>
   </div>
 </li>
@@ -231,14 +250,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../decision-tree/classification/classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Classification</span></a>
+  <a href="../../decision-tree/regression/regression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../decision-tree/regression/regression.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Regression</span></a>
+  <a href="../../decision-tree/classification/classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification</span></a>
   </div>
 </li>
       </ul>
@@ -304,7 +323,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>As the next step of our analysis, we will be attempting to predict the <code>smipppy</code>, (Predicted Probability of Severe Mental Illness in the Past Year) using the NSDUH data. Our goal is to use data on cannabis use to predict the probability of severe mental illness.</p>
+<p>As the next step of our analysis, we will be attempting to predict the <code>smipppy</code>, (Predicted Probability of Severe Mental Illness in the Past Year) using the NSDUH data <span class="citation" data-cites="nsduh">(<a href="#ref-nsduh" role="doc-biblioref">Behavioral Health Statistics and Quality 2022</a>)</span>. Our goal is to use data on cannabis use to predict the probability of severe mental illness.</p>
 <p>In order to do this prediction task, we will use decision tree. First, we will use a simple decision tree as a baseline model for comparison. Next, we will use stochastic gradient boosting to improve the performance of our model. Finally, we will use a random forest model to see if we can improve our model further.</p>
 </section>
 <section id="methods" class="level2">
@@ -940,9 +959,14 @@ Random Forest R2:  0.006759822234491675</code></pre>
 <p>Overall, we get a good model from the single decision tree. However, the random forest model does not improve on the single decision tree model. This is likely due to the fact that our data is not a strong predictor of the outcome. This indicates that in this dataset, cannabis usage is not a strong predictor of predicted probability of severe mental illness. This is a surprising result, since we expected cannabis usage to be a strong predictor of mental illness. However, part of this result may be due to the fact that we do not have direct mental illness data. Instead, we have a predicted probability of mental illness, which is a proxy for mental illness. This may be why our models do not perform as well as we expected.</p>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-nsduh" class="csl-entry" role="listitem">
+Behavioral Health Statistics, Center for, and Quality. 2022. <span>“2021 National Survey on Drug Use and Health Public Use File Codebook.”</span> Substance Abuse and Mental Health Services Administration, Rockville, MD.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
